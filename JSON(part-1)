@@ -1,0 +1,46 @@
+let book = {
+  title: "The Great Gatsby",
+  author: "F. Scott Fitzgerald",
+  pages: 180,
+  isRead: false,
+  genre: "Classic"
+}
+
+function toggleBookStatus(book){ 
+
+    if(book.hasOwnProperty("isRead")){ 
+        if(book.isRead === true){ 
+            book.isRead = false
+        }
+        else if(book.isRead === false){ 
+            book.isRead = true
+        }
+    }
+
+    if(!book.hasOwnProperty("isRead")){ 
+        book.isRead = true
+    }
+
+    return(book)
+}
+
+toggleBookStatus(book)
+
+let data = { 
+    "username": "johnDoe",
+    "email": "johnDoe@example.com"
+}
+
+let reqKeys = ["username", "email"]
+let newArr = []
+
+function findMissingKeys(data, reqKeys) { 
+    for(let i = 0; i < reqKeys.length; i++){ 
+        if(!data.hasOwnProperty(reqKeys[i])){ 
+            newArr.push(reqKeys[i])
+        }
+    }
+    console.log(newArr)
+}
+
+findMissingKeys(data, reqKeys)

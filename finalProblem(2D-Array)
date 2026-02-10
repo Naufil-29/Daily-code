@@ -1,0 +1,21 @@
+let matrixList = [ 
+    [ 
+        [1, 2],
+        [3, 4]
+    ],
+    [ 
+        [5, 6]
+    ]
+]
+
+let newArr = []
+function stackMatrices (matrixList) { 
+    for(let i = 0; i < matrixList.length; i++){ 
+        for(let j = 0; j < matrixList[i].length; j++){ 
+            newArr.push(matrixList[i][j])
+        }
+    }
+    console.log(newArr)
+}
+
+stackMatrices(matrixList)
