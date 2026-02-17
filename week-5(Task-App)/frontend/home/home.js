@@ -59,3 +59,8 @@ async function getAllTodo(){
         console.error("Error:", error);
     }
 }
+
+async function logout() { 
+    localStorage.removeItem("token")
+    .then(console.log("token delelted"))
+}
