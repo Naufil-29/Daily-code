@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task-app</title>
+    <style> 
+        *{ 
+            padding: 0px;
+            margin: 0px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .main{ 
+            background-color: rgb(174, 94, 221);
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card{ 
+            width: 80vw;
+            height: 80vh;
+            background-color: rgb(154, 49, 215);
+            border-radius: 20px;
+            color: rgb(99, 6, 154)
+        }
+
+        .heading{ 
+            margin: 30px
+        }
+
+        .form{ 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .input input{ 
+            padding: 10px;
+            width: 60vw;
+            height: 4vh;
+            border-radius: 10px;
+            border: none;
+        }
+
+
+        .button button{ 
+            padding: 10px;
+            width: 60vw;
+            height: 7vh;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-weight: 800;
+            background-color: rgb(99, 6, 154)
+        }
+
+        .todos-table{ 
+            width: 60vw;
+            height: 18vh;
+            border-radius: 20px;
+            background-color: rgb(99, 6, 154);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 10px;
+        }
+
+        .todos-table div{ 
+            background-color: white;
+            width: 90%;
+            height: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="main"> 
+        <div class="card"> 
+            <div  class="heading">
+                <h1>Your Todo List</h1>
+            </div>
+
+            <div class="form">
+            <div class="input"> 
+                <div>Title</div>
+                <input id="title-input" type="text" placeholder="title"></input>
+            </div>
+            <div class="input"> 
+                <div>Content</div>
+                <input id="content-input" type="text" placeholder="content"></input>
+            </div>
+            <div class="button"> 
+                <button id="signup-btn" onclick="AddTodo()">Add new todo</button>
+            </div>
+            <div class="button">
+                <button id="all-todo" onclick="getAllTodo()">Get All Todo</button>
+            </div>
+            <div class="todos-table" id="todos-table"> 
+                <div class="todo">my name naufil</div>
+                
+       
+           <script src="home.js"></script>
+        </div>
+    </div>
+</body>
+</html>
