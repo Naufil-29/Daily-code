@@ -62,5 +62,6 @@ async function getAllTodo(){
 
 async function logout() { 
     localStorage.removeItem("token")
-    .then(console.log("token delelted"))
+    alert("token removed logged out")
+    window.location.href = "../signup/signup.html"
 }

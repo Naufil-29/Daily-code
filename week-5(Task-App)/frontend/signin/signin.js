@@ -27,6 +27,7 @@ document.getElementById("password-input").addEventListener("input", function(e){
             console.log("Success:", result);
             const token = result.token;
             localStorage.setItem("token", token)
+            window.location.href = "../home/home.html"
             }catch (error) {
                 console.error("Error:", error);
             }
