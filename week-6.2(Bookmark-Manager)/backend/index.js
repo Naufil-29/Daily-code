@@ -4,8 +4,8 @@ const PORT = 3000;
 let currentId = 1;
 const bookmarks = [];
 const app = express();
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => { 
     res.send("hello ji kya haal he")
