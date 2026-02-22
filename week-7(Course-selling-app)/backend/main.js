@@ -9,9 +9,8 @@ import { AdminModel, CourseModel } from './db.js';
 import { adminAuth } from './middlewares/Middlewares.js';
 
 const JWT_SECRET = process.env.JWT_SECRET;
-console.log(JWT_SECRET)
 
-mongoose.connect('mongodb+srv://shaikhnaufil2908_db:Burg3167Man@paytm-db.kd1comr.mongodb.net/course-db')
+mongoose.connect(process.env.MONGO_URI)
 .then(() => { 
     console.log('successfully connected to database')
 });
@@ -110,7 +109,6 @@ const courseZodSchema = z.object({
 
 app.post("/admin/course", adminAuth, async(req, res) => {
     try{ 
-        console.log(req.adminId)
         const result = courseZodSchema.safeParse(req.body);
 
     if(!result.success){ 
