@@ -5,12 +5,12 @@ import cors from 'cors';
 import {z} from 'zod';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import { AdminModel, CourseModel } from './db.js';
+import { AdminModel, CourseModel, UserModel } from './db.js';
 import { adminAuth } from './middlewares/Middlewares.js';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect('mongodb+srv://shaikhnaufil2908_db:Burg3167Man@paytm-db.kd1comr.mongodb.net/course-db')
 .then(() => { 
     console.log('successfully connected to database')
 });
@@ -138,8 +138,108 @@ app.post("/admin/course", adminAuth, async(req, res) => {
     }
 });
 
-app.put("/admin/course", adminAuth, (req, res) => { 
-    
+app.put("/admin/course/:courseId", adminAuth, async(req, res) => { 
+    try{ 
+        const{ title, price } = req.body;
+        const courseId = req.params.courseId;
+        const course = await CourseModel.findById(courseId);
+
+        if(!course){ 
+         return res.status(304).json({ 
+             Msg: 'course not found'
+         });
+        }
+        if(course.adminId.toString() !== req.adminId){ 
+            console.log(course.adminId.toString(), req.adminId)
+            return res.status(401).json({ 
+            Msg: 'you are not authorized to change this course'
+        });
+        }
+
+        const updatedCourse = await CourseModel.findOneAndUpdate(
+            { 
+             _id: courseId,
+             adminId: req.adminId
+            },
+            req.body,
+            { new: true }
+        );
+
+        res.status(200).json({ 
+        Msg: 'course updated successfully',
+        updatedCourse
+        });
+    }
+    catch(e){ 
+        console.log('updating-course-err', e)
+         res.status(500).json({ 
+            Msg: 'error updating course'
+         })
+    }
+});
+
+
+app.delete("/admin/course/:courseId", adminAuth, async(req, res) => { 
+    const courseId = req.params.courseId;
+
+    const course = await CourseModel.findById(courseId);
+
+    if(!course){ 
+        return res.status(400).json({ 
+            Msg: 'no such course found'
+        })
+    }
+    console.log(course.adminId.toString(), req.adminId)
+
+    if(course.adminId.toString() !== req.adminId){ 
+        return res.status(401).json({ 
+            Msg: 'you are not authorized to delete this course'
+        })
+    }
+
+    const deletedCourse = await CourseModel.findByIdAndDelete( 
+        { 
+            _id: courseId,
+            adminId: req.adminId
+        }, 
+    );
+
+    res.status(200).json({ 
+        Msg: 'course deleted successfully',
+        deletedCourse
+    })
+});
+
+const userSignUpSchema = z.object({ 
+    username: z.string().min(3),
+    email: z.string().email(),
+    password: z.string().min(5)
+});
+
+app.post("/user/signup", (req, res) => { 
+    try{ 
+        const result = userSignUpSchema.safeParse(req.body);
+
+    if(!result){ 
+        return res.status(301).json({ 
+            Msg: 'incorrect input or syntax error'
+        })
+    }
+
+    const validData = result.data;
+
+    const newUser = UserModel.create(validData);
+
+    res.status(200).json({ 
+        Msg: 'new user created successfully',
+        newUser
+    });
+}
+catch(e){ 
+    return res.status(403).json({ 
+        Msg: 'error creating new user'
+    });
+}
 })
 
 
