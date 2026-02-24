@@ -6,9 +6,10 @@ import {z} from 'zod';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { AdminModel, CourseModel, UserModel } from './db.js';
-import { adminAuth } from './middlewares/Middlewares.js';
+import { adminAuth, userAuth } from './middlewares/Middlewares.js';
 
 const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_USER_SECRET = process.env.JWT_USER_SECRET;
 
 mongoose.connect('mongodb+srv://shaikhnaufil2908_db:Burg3167Man@paytm-db.kd1comr.mongodb.net/course-db')
 .then(() => { 
@@ -52,6 +53,7 @@ app.post("/admin/signup", async(req, res) => {
     
     }
     catch(e){ 
+        console.log('error creating new admin', e)
         res.status(300).json({ 
             Msg: 'error creating new adim'
         })
@@ -96,6 +98,7 @@ app.post("/admin/signin", async(req, res) => {
     });
     }
     catch(e){ 
+        console.log('error singing-In admin', e)
         res.status(400).json({ 
             Msg: 'error signing-in as admin'
         })
@@ -180,7 +183,8 @@ app.put("/admin/course/:courseId", adminAuth, async(req, res) => {
 
 
 app.delete("/admin/course/:courseId", adminAuth, async(req, res) => { 
-    const courseId = req.params.courseId;
+    try{ 
+        const courseId = req.params.courseId;
 
     const course = await CourseModel.findById(courseId);
 
@@ -207,7 +211,14 @@ app.delete("/admin/course/:courseId", adminAuth, async(req, res) => {
     res.status(200).json({ 
         Msg: 'course deleted successfully',
         deletedCourse
-    })
+    });
+    }
+    catch(e){ 
+        console.log('error deleting-course', e);
+        return res.status(500).json({ 
+            Msg: 'error deleting course'
+        });
+    }
 });
 
 const userSignUpSchema = z.object({ 
@@ -216,7 +227,7 @@ const userSignUpSchema = z.object({
     password: z.string().min(5)
 });
 
-app.post("/user/signup", (req, res) => { 
+app.post("/user/signup", async(req, res) => { 
     try{ 
         const result = userSignUpSchema.safeParse(req.body);
 
@@ -228,7 +239,7 @@ app.post("/user/signup", (req, res) => {
 
     const validData = result.data;
 
-    const newUser = UserModel.create(validData);
+    const newUser = await UserModel.create(validData);
 
     res.status(200).json({ 
         Msg: 'new user created successfully',
@@ -236,11 +247,73 @@ app.post("/user/signup", (req, res) => {
     });
 }
 catch(e){ 
+    console.log('error creating-new-user', e)
     return res.status(403).json({ 
         Msg: 'error creating new user'
     });
 }
+});
+
+const userSigninSchema = z.object({ 
+    email: z.string().email(),
+    password: z.string().min(5)
 })
+
+app.post("/user/signin", async(req, res) => {
+    try{ 
+        const result = userSigninSchema.safeParse(req.body);
+
+        if(!result){ 
+        return res.status(301).json({ 
+            Msg: 'incorrect input or syntax error'
+        })
+    }
+
+    const validData = result.data;
+
+    const existingUser = await UserModel.findOne({ 
+        email: validData.email
+    });
+
+    if(!existingUser){ 
+        return res.status(301).json({ 
+            Msg: 'no such user found'
+        });
+    }
+
+    const token = jwt.sign({ 
+        _id: existingUser._id
+    }, JWT_USER_SECRET);
+
+    res.status(200).json({ 
+        Msg: 'user logged in successfuly',
+        token
+    });
+    }
+    catch(e){ 
+        console.log('user signing In error', e)
+        return res.status(500).json({ 
+            Msg: 'error logging in',
+        });
+    }
+});
+
+app.get("/user/courses", userAuth, async(req, res) => { 
+    try{ 
+        const allCourses = await CourseModel.find();
+
+        res.status(201).json({ 
+            Msg: 'all courses',
+            allCourses
+        });
+    }
+    catch(e){ 
+        console.log('get-all-course-error', e)
+        res.status(500).json({ 
+            Msg: 'error finding all courses'
+        })
+    }
+});
 
 
 
