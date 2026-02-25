@@ -23,7 +23,10 @@ const userSchema = new mongoose.Schema({
     username: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    purchasedCourses: []
+    purchasedCourses: [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    }]
 });
 
 const courseSchema = new mongoose.Schema({ 

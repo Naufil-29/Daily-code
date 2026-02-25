@@ -50,7 +50,7 @@ export function userAuth(req, res, next){
         })
     }
 
-    req.userid = decoded._id;
+    req.userId = decoded._id;
     next();
     }
     catch(e){ 

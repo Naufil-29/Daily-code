@@ -54,7 +54,7 @@ app.post("/admin/signup", async(req, res) => {
     }
     catch(e){ 
         console.log('error creating new admin', e)
-        res.status(300).json({ 
+        res.status(500).json({ 
             Msg: 'error creating new adim'
         })
     }
@@ -99,7 +99,7 @@ app.post("/admin/signin", async(req, res) => {
     }
     catch(e){ 
         console.log('error singing-In admin', e)
-        res.status(400).json({ 
+        res.status(500).json({ 
             Msg: 'error signing-in as admin'
         })
     }
@@ -135,7 +135,7 @@ app.post("/admin/course", adminAuth, async(req, res) => {
     }
     catch(e){ 
         console.log('course-error', e)
-        res.status(400).json({ 
+        res.status(500).json({ 
             Msg: 'error creating new course'
         })
     }
@@ -143,36 +143,36 @@ app.post("/admin/course", adminAuth, async(req, res) => {
 
 app.put("/admin/course/:courseId", adminAuth, async(req, res) => { 
     try{ 
-        const{ title, price } = req.body;
-        const courseId = req.params.courseId;
-        const course = await CourseModel.findById(courseId);
+            const{ title, price } = req.body;
+            const courseId = req.params.courseId;
+            const course = await CourseModel.findById(courseId);
 
-        if(!course){ 
-         return res.status(304).json({ 
-             Msg: 'course not found'
-         });
+            if(!course){ 
+                return res.status(404).json({ 
+                    Msg: 'course not found'
+                });
+            }
+            if(course.adminId.toString() !== req.adminId){ 
+                console.log(course.adminId.toString(), req.adminId)
+                 return res.status(401).json({ 
+                 Msg: 'you are not authorized to change this course'
+                });
+            }
+
+            const updatedCourse = await CourseModel.findOneAndUpdate(
+                { 
+                _id: courseId,
+                 adminId: req.adminId
+                 },
+                 req.body,
+                { new: true }
+            );
+
+            res.status(200).json({ 
+            Msg: 'course updated successfully',
+            updatedCourse
+            });
         }
-        if(course.adminId.toString() !== req.adminId){ 
-            console.log(course.adminId.toString(), req.adminId)
-            return res.status(401).json({ 
-            Msg: 'you are not authorized to change this course'
-        });
-        }
-
-        const updatedCourse = await CourseModel.findOneAndUpdate(
-            { 
-             _id: courseId,
-             adminId: req.adminId
-            },
-            req.body,
-            { new: true }
-        );
-
-        res.status(200).json({ 
-        Msg: 'course updated successfully',
-        updatedCourse
-        });
-    }
     catch(e){ 
         console.log('updating-course-err', e)
          res.status(500).json({ 
@@ -186,32 +186,32 @@ app.delete("/admin/course/:courseId", adminAuth, async(req, res) => {
     try{ 
         const courseId = req.params.courseId;
 
-    const course = await CourseModel.findById(courseId);
+        const course = await CourseModel.findById(courseId);
 
-    if(!course){ 
-        return res.status(400).json({ 
-            Msg: 'no such course found'
-        })
-    }
-    console.log(course.adminId.toString(), req.adminId)
+        if(!course){ 
+            return res.status(404).json({ 
+                Msg: 'no such course found'
+            })
+        }
+        console.log(course.adminId.toString(), req.adminId)
 
-    if(course.adminId.toString() !== req.adminId){ 
-        return res.status(401).json({ 
-            Msg: 'you are not authorized to delete this course'
-        })
-    }
+        if(course.adminId.toString() !== req.adminId){ 
+            return res.status(401).json({ 
+                Msg: 'you are not authorized to delete this course'
+            })
+        }
 
-    const deletedCourse = await CourseModel.findByIdAndDelete( 
-        { 
-            _id: courseId,
-            adminId: req.adminId
-        }, 
-    );
+        const deletedCourse = await CourseModel.findByIdAndDelete( 
+            { 
+                _id: courseId,
+                adminId: req.adminId
+            }, 
+        );
 
-    res.status(200).json({ 
-        Msg: 'course deleted successfully',
-        deletedCourse
-    });
+        res.status(200).json({ 
+            Msg: 'course deleted successfully',
+            deletedCourse
+        });
     }
     catch(e){ 
         console.log('error deleting-course', e);
@@ -227,28 +227,28 @@ const userSignUpSchema = z.object({
     password: z.string().min(5)
 });
 
-app.post("/user/signup", async(req, res) => { 
+app.post("/users/signup", async(req, res) => { 
     try{ 
         const result = userSignUpSchema.safeParse(req.body);
 
-    if(!result){ 
-        return res.status(301).json({ 
+        if(!result){ 
+            return res.status(401).json({ 
             Msg: 'incorrect input or syntax error'
-        })
+            })
+        }
+
+        const validData = result.data;
+
+        const newUser = await UserModel.create(validData);
+
+        res.status(200).json({ 
+            Msg: 'new user created successfully',
+            newUser
+        });
     }
-
-    const validData = result.data;
-
-    const newUser = await UserModel.create(validData);
-
-    res.status(200).json({ 
-        Msg: 'new user created successfully',
-        newUser
-    });
-}
 catch(e){ 
     console.log('error creating-new-user', e)
-    return res.status(403).json({ 
+    return res.status(500).json({ 
         Msg: 'error creating new user'
     });
 }
@@ -259,36 +259,36 @@ const userSigninSchema = z.object({
     password: z.string().min(5)
 })
 
-app.post("/user/signin", async(req, res) => {
+app.post("/users/signin", async(req, res) => {
     try{ 
         const result = userSigninSchema.safeParse(req.body);
 
         if(!result){ 
-        return res.status(301).json({ 
+            return res.status(400).json({ 
             Msg: 'incorrect input or syntax error'
-        })
-    }
+            });
+        }
 
-    const validData = result.data;
+        const validData = result.data;
 
-    const existingUser = await UserModel.findOne({ 
-        email: validData.email
-    });
-
-    if(!existingUser){ 
-        return res.status(301).json({ 
-            Msg: 'no such user found'
+        const existingUser = await UserModel.findOne({ 
+            email: validData.email
         });
-    }
 
-    const token = jwt.sign({ 
-        _id: existingUser._id
-    }, JWT_USER_SECRET);
+        if(!existingUser){ 
+            return res.status(404).json({ 
+            Msg: 'no such user found'
+            });
+        }
 
-    res.status(200).json({ 
-        Msg: 'user logged in successfuly',
-        token
-    });
+        const token = jwt.sign({ 
+            _id: existingUser._id
+        }, JWT_USER_SECRET);
+
+        res.status(200).json({ 
+            Msg: 'user logged in successfuly',
+            token
+        });
     }
     catch(e){ 
         console.log('user signing In error', e)
@@ -298,7 +298,7 @@ app.post("/user/signin", async(req, res) => {
     }
 });
 
-app.get("/user/courses", userAuth, async(req, res) => { 
+app.get("/users/courses", userAuth, async(req, res) => { 
     try{ 
         const allCourses = await CourseModel.find();
 
@@ -315,7 +315,69 @@ app.get("/user/courses", userAuth, async(req, res) => {
     }
 });
 
+app.post("/users/courses/:courseId", userAuth, async (req, res) => { 
+    try{ 
+         const courseId = req.params.courseId;
+         console.log(courseId)
 
+        const course = await CourseModel.findOne({ 
+            _id: courseId
+        });
+
+        if(!course){ 
+            return res.status(404).json({ 
+            Msg: 'selected course not found or deleted'
+            })
+        }
+
+        const updatedUser = await UserModel.findOneAndUpdate(
+            { _id: req.userId }, 
+            { $addToSet: { purchasedCourses: course._id } },
+            { new: true }
+        );
+
+        res.status(200).json({ 
+            Msg: 'congratulation you purchased a new course',
+            updatedUser
+        });
+    }
+    catch(e){ 
+        console.log('purchasing-course-error', e);
+        return res.status(500).json({ 
+            Msg: 'error purchasing course'
+        });
+    }
+});
+
+app.get("/users/purchasedcourses", userAuth, async(req, res) => {
+    try{ 
+        const userId = req.userId;
+        console.log(userId);
+
+        const user = await UserModel.findById(userId)
+        .populate({ 
+            path: "purchasedCourses",
+            select: "title price"
+        });
+
+        if(!user){ 
+            return res.status(404).json({ 
+                Msg: 'user not found'
+            })
+        }
+
+        res.status(200).json({ 
+            Msg: "user's all courses",
+            purchasedCourses: user.purchasedCourses
+        });
+    }
+    catch(e){ 
+        console.log('error-searching-courses-of-user', e);
+        return res.status(500).json({ 
+            Msg: 'error searching your courses'
+        });
+    }
+});
 
 
 
