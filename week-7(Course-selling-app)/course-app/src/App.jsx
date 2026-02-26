@@ -1,10 +1,16 @@
-import { useState } from 'react'
+
+import { Route, Routes, BrowserRouter } from 'react-router-dom'
+import SignUp from './components/Signup'
+import SignIn from './components/Signin'
+import HomePage from './pages/home'
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-   <div className='bg-red-500'>heoo</div>
+  return(
+<BrowserRouter> 
+  <Routes> 
+    <Route path="/" element={<HomePage/>}/>
+  </Routes>
+</BrowserRouter>
   )
 }
 
