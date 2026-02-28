@@ -13,7 +13,7 @@ const courses = [
   {
     title: "Web Dev + Devops Bootcamp",
     desc: "Web dev Devops",
-    price: "₹3,999",
+    price: "₹4,989",
     oldPrice: "₹5,999",
     image: webdev,
   },

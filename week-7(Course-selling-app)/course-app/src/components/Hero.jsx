@@ -1,8 +1,9 @@
 import Button from "./Button"
 import img from "../assets/hero-img.webp"
 import { User } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 export default function Hero(){ 
-
+    const navigate = useNavigate();
     return<div>
         <div className="section-1 flex items-center justify-between mt-25 ml-25 mr-25 mb-15"> 
         <div className="Info-section  flex flex-col items-start justify-center gap-3"> 
@@ -21,7 +22,7 @@ export default function Hero(){
             </div>
             <div className="btns flex items-center justify-center gap-5"> 
                 <button className="px-6 py-3 rounded-xl bg-white border border-gray-300 text-black">Learn More</button>
-                <button className="px-6 py-3 rounded-xl bg-blue-900 border border-gray-300 text-white">Explore Courses</button>
+                <button onClick={() => navigate("/courses")} className="px-6 py-3 rounded-xl bg-blue-900 border border-gray-300 text-white">Explore Courses</button>
             </div>
         </div>
         <div className="img-section "> 

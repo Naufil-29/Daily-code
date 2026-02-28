@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose
 
-import { z } from 'zod'
+import { string, z } from 'zod'
 // import dotenv from 'dotenv';
 // dotenv.config()
 
@@ -15,6 +15,13 @@ export const adminSchema = new mongoose.Schema({
     username: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    role: {
+    type: String,
+    default: "admin"
+    },
+    refreshToken: { 
+        type: String
+    },
     courses: []
 });
 
@@ -23,6 +30,13 @@ const userSchema = new mongoose.Schema({
     username: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    role: {
+    type: String,
+    default: "user"
+    },
+    refreshToken: { 
+        type: String
+    },
     purchasedCourses: [{ 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
@@ -33,7 +47,10 @@ const courseSchema = new mongoose.Schema({
     _id: { type: Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId },
     adminId: { type: Schema.Types.ObjectId, ref: 'Admin', required: true },
     title: { type: String, required: true },
-    price: { type: Number, required: true }
+    price: { type: Number, required: true },
+    oldPrice: { type: Number },
+    image: { type: String },
+    discount: { type: Number }
 });
 
 export const AdminModel = mongoose.model("Admin", adminSchema);

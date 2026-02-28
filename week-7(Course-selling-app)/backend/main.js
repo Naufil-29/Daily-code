@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import cors from 'cors';
 import {z} from 'zod';
@@ -18,11 +19,8 @@ mongoose.connect('mongodb+srv://shaikhnaufil2908_db:Burg3167Man@paytm-db.kd1comr
 
 const app = express();
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
-
-app.get("/", (req, res) => { 
-    res.send('express')
-});
 
 const adminSignupSchema = z.object({ 
     username: z.string().min(3).max(50),
@@ -32,7 +30,7 @@ const adminSignupSchema = z.object({
 
 app.post("/admin/signup", async(req, res) => { 
     try{ 
-            const { username, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     const result = adminSignupSchema.safeParse(req.body);
 
@@ -89,7 +87,8 @@ app.post("/admin/signin", async(req, res) => {
     }
 
     const token = jwt.sign({ 
-        id: existingAdmin._id
+        id: existingAdmin._id,
+        role: existingAdmin.role
     }, JWT_SECRET)
 
     res.status(200).json({ 
@@ -107,7 +106,10 @@ app.post("/admin/signin", async(req, res) => {
 
 const courseZodSchema = z.object({ 
     title: z.string().min(3).max(50),
-    price: z.coerce.number()
+    price: z.coerce.number(),
+    oldPrice: z.coerce.number(),
+    discount: z.coerce.number(),
+    image: z.string()
 })
 
 app.post("/admin/course", adminAuth, async(req, res) => {
@@ -125,7 +127,10 @@ app.post("/admin/course", adminAuth, async(req, res) => {
     const newCourse = await CourseModel.create({ 
         adminId: req.adminId,
         title: ValidData.title,
-        price: ValidData.price
+        price: ValidData.price,
+        oldPrice: ValidData.oldPrice,
+        discount: ValidData.discount,
+        image: ValidData.image
     });
 
     res.status(201).json({ 
@@ -221,6 +226,42 @@ app.delete("/admin/course/:courseId", adminAuth, async(req, res) => {
     }
 });
 
+app.get("/admin/mycourses", adminAuth, async (req, res) => {
+  try {
+    const coursesByAdmin = await CourseModel.find({
+      adminId: req.adminId
+    });
+
+    res.status(200).json({
+      msg: "All courses created by you",
+      courses: coursesByAdmin
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      msg: "Error fetching courses",
+      error: err.message
+    });
+  }
+});
+
+app.get("/admin/courses", adminAuth, async(req, res) => { 
+    try{ 
+        const allCourses = await CourseModel.find();
+
+        res.status(201).json({ 
+            Msg: 'all courses',
+            courses: allCourses
+        });
+    }
+    catch(e){ 
+        console.log('get-all-course-error', e)
+        res.status(500).json({ 
+            Msg: 'error finding all courses'
+        })
+    }
+});
+
 const userSignUpSchema = z.object({ 
     username: z.string().min(3),
     email: z.string().email(),
@@ -282,12 +323,16 @@ app.post("/users/signin", async(req, res) => {
         }
 
         const token = jwt.sign({ 
-            _id: existingUser._id
+            _id: existingUser._id,
+            role: existingUser.role
         }, JWT_USER_SECRET);
+
+        const newUser = existingUser;
 
         res.status(200).json({ 
             Msg: 'user logged in successfuly',
-            token
+            token,
+            newUser
         });
     }
     catch(e){ 
@@ -304,7 +349,7 @@ app.get("/users/courses", userAuth, async(req, res) => {
 
         res.status(201).json({ 
             Msg: 'all courses',
-            allCourses
+             allCourses
         });
     }
     catch(e){ 
