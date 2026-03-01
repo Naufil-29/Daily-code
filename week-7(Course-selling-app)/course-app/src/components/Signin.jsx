@@ -1,4 +1,5 @@
 import axios from 'axios';
+import api from '../utils/api';
 import img from '../assets/harkirat-transparent.png';
 import Button from './Button';
 import Input from './Input';
@@ -15,17 +16,17 @@ export default function SignIn({closeSignin, setUserInitial}) {
          console.log('email', email);
          console.log('password', password);
         
-         const response = await axios.post("http://localhost:3000/users/signin", { 
+         const response = await api.post("/users/signin", { 
             email: email,
             password: password
          });
 
-         const user = response.data.newUser;
+         const user = response.data.user;
          const firstChar = user.username[0].toUpperCase();
          setUserInitial(firstChar);
 
-         const token = response.data.token;
-         localStorage.setItem('token', token);
+         const accessToken = response.data.accessToken;
+         localStorage.setItem('accessToken', accessToken);
          localStorage.setItem('user', JSON.stringify(user));
 
          closeSignin();

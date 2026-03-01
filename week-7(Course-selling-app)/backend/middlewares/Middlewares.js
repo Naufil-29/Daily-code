@@ -5,64 +5,88 @@ import jwt from 'jsonwebtoken';
 
 export function adminAuth(req, res, next) { 
     try{ 
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
 
-    if(!token){ 
-        return res.status(400).json({ 
-            Msg: 'token not found or invalid'
-        });
-    };
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if(!decoded){ 
-        return res.status(400).json({ 
-            Msg: 'token is incorrect/invalid'
-        });
-
-    };
-
-    if(decoded.role !== "admin"){ 
-        return(403).json({Msg: "access denied"})
-    };
-    
-    req.adminId = decoded.id;
-    next();
-    }
-    catch(e){ 
-        console.log('auth-error', e)
-        return res.status(500).json({ 
-            Msg: 'failed to verify admin'
-        })
-    }
-}
-
-
-export function userAuth(req, res, next){ 
-    try{ 
-        const token = req.headers.authorization;
-
-    if(!token){ 
-        return res.status(401).json({ 
-            Msg: 'token not found or invalid'
-        })
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        code: "NO_TOKEN",
+        message: "Access token missing",
+      });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_USER_SECRET);
+    const token = authHeader.split(" ")[1]; // ✅ extract real token
 
-    if(!decoded){ 
-        return res.status(401).json({ 
-            Msg: 'token is incorrect/invalid'
-        })
-    }
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_ACCESS_SECRET
+    );
 
     req.userId = decoded._id;
     next();
+  } catch (e) {
+    console.log("error verifying user", e);
+
+    if (e.name === "TokenExpiredError") {  // ⚠️ also fixed spelling
+      return res.status(401).json({
+        code: "TOKEN_EXPIRED",
+        message: "Access token expired",
+      });
     }
-    catch(e){ 
-        console.log('error verifying user', e)
-        return res.status(500).json({ 
-            Msg: 'failed to veirfy user'
-        })
+
+    if(e.name === "jwt malformed"){ 
+        return res.status(401).json({
+        code: "jwt malformed",
+        message: "jwt malformed",
+      });
     }
+
+    return res.status(401).json({
+      code: "INVALID_TOKEN",
+      message: "Invalid access token",
+    });
+    }
+}
+
+export function userAuth(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        code: "NO_TOKEN",
+        message: "Access token missing",
+      });
+    }
+
+    const token = authHeader.split(" ")[1]; // ✅ extract real token
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_ACCESS_SECRET
+    );
+
+    req.userId = decoded._id;
+    next();
+  } catch (e) {
+    console.log("error verifying user", e);
+
+    if (e.name === "TokenExpiredError") {  // ⚠️ also fixed spelling
+      return res.status(401).json({
+        code: "TOKEN_EXPIRED",
+        message: "Access token expired",
+      });
+    }
+
+    if(e.name === "jwt malformed"){ 
+        return res.status(401).json({
+        code: "jwt malformed",
+        message: "jwt malformed",
+      });
+    }
+
+    return res.status(401).json({
+      code: "INVALID_TOKEN",
+      message: "Invalid access token",
+    });
+  }
 }

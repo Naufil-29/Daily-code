@@ -9,8 +9,8 @@ import jwt from 'jsonwebtoken';
 import { AdminModel, CourseModel, UserModel } from './db.js';
 import { adminAuth, userAuth } from './middlewares/Middlewares.js';
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_USER_SECRET = process.env.JWT_USER_SECRET;
+const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
 mongoose.connect('mongodb+srv://shaikhnaufil2908_db:Burg3167Man@paytm-db.kd1comr.mongodb.net/course-db')
 .then(() => { 
@@ -18,7 +18,7 @@ mongoose.connect('mongodb+srv://shaikhnaufil2908_db:Burg3167Man@paytm-db.kd1comr
 });
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -86,15 +86,25 @@ app.post("/admin/signin", async(req, res) => {
         })
     }
 
-    const token = jwt.sign({ 
+    const accessToken = jwt.sign({ 
         id: existingAdmin._id,
         role: existingAdmin.role
-    }, JWT_SECRET)
+    }, JWT_ACCESS_SECRET, { expiresIn: "15m" });
 
-    res.status(200).json({ 
-        Msg: 'admin signed-in successfully',
-        token
-    });
+    const refreshToken = jwt.sign({
+        id: existingAdmin._id
+    }, JWT_REFRESH_SECRET, { expiresIn: "7d" });
+
+    existingAdmin.refreshToken = refreshToken;
+    await existingAdmin.save();
+
+    res.cookie("refreshToken", refreshToken, { 
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict"
+    }).json({ Msg:"user signedIn successfully", accessToken })
+
+
     }
     catch(e){ 
         console.log('error singing-In admin', e)
@@ -322,18 +332,25 @@ app.post("/users/signin", async(req, res) => {
             });
         }
 
-        const token = jwt.sign({ 
-            _id: existingUser._id,
-            role: existingUser.role
-        }, JWT_USER_SECRET);
+    const accessToken = jwt.sign({ 
+        id: existingUser._id,
+        role: existingUser.role
+    }, JWT_ACCESS_SECRET, { expiresIn: "15m" });
 
-        const newUser = existingUser;
+    const refreshToken = jwt.sign({
+        id: existingUser._id
+    }, JWT_REFRESH_SECRET, { expiresIn: "7d" });
 
-        res.status(200).json({ 
-            Msg: 'user logged in successfuly',
-            token,
-            newUser
-        });
+    existingUser.refreshToken = refreshToken;
+    await existingUser.save();
+
+    res.cookie("refreshToken", refreshToken, { 
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict"
+    }).json({ Msg:"user signedIn successfully", accessToken, user:existingUser });
+
+
     }
     catch(e){ 
         console.log('user signing In error', e)
@@ -358,6 +375,65 @@ app.get("/users/courses", userAuth, async(req, res) => {
             Msg: 'error finding all courses'
         })
     }
+});
+
+app.post("/refresh", async(req, res) => { 
+    const refreshToken = req.cookies.refreshToken;
+
+    if(!refreshToken){ 
+        return res.status(401).json({ message: "No refresh token" });
+    }
+
+    try{ 
+        const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+
+        let user = await UserModel.findById(decoded.id);
+        let role = "user";
+
+        if(!user){ 
+            user = await AdminModel.findById(decoded.id);
+            role = "admin"
+        }
+
+        if(!user || user.refreshToken !== refreshToken){ 
+            return res.status(401).json({ message: "No refresh token" });
+        }
+
+        const newAccessToken = jwt.sign({ 
+            id: user._id, role
+        }, JWT_ACCESS_SECRET,
+          {expiresIn: "15m"});
+
+        res.status(201).json({ 
+            Msg: "new access token created",
+            newAccessToken
+        })
+    }
+    catch (err) {
+    if (err.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Refresh token expired" });
+    }
+
+    return res.status(401).json({ message: "Invalid refresh token" })
+  }
+});
+
+app.post("/logout", async (req, res) => {
+
+  const refreshToken = req.cookies.refreshToken;
+
+  if (refreshToken) {
+    const user = await UserModel.findOne({ refreshToken }) 
+              || await AdminModel.findOne({ refreshToken });
+
+    if (user) {
+      user.refreshToken = null;
+      await user.save();
+    }
+  }
+
+  res.clearCookie("refreshToken");
+  res.json({ message: "Logged out" });
 });
 
 app.post("/users/courses/:courseId", userAuth, async (req, res) => { 

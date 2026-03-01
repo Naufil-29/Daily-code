@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import axios from "axios";
+import api from "../utils/api";
 import { useState, useEffect } from "react";
 import SignIn from "../components/Signin";
 import SignUp from "../components/Signup";
@@ -67,7 +68,7 @@ export default function CoursesPage() {
         const [showSignin, setShowSignin] = useState(false);
         const [userInitial, setUserInitial] = useState(null);
         const [courses, setCourses] = useState(coursesBYFE);
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
     
         useEffect(() => { 
             const storedUser = localStorage.getItem('user');
@@ -80,11 +81,7 @@ export default function CoursesPage() {
         },[]);
 
         const getAllCourses = async() => { 
-            const response = await axios.get("http://localhost:3000/users/courses", { 
-                headers:{ 
-                    authorization: `${token}`
-                }
-            });
+            const response = await api.get("/users/courses");
 
             const coursesByBE = response.data.allCourses;
             setCourses(coursesByBE);

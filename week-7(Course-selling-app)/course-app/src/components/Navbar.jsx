@@ -1,15 +1,19 @@
 import { Search } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
+import api from "../utils/api";
 
 
 export default function Navbar({openSignup, openSignin, userInitial, setUserInitial}){ 
     const [isLogged, setIsLogged] = useState(false);
     const navigate = useNavigate();
 
-    const logout = () => { 
+    const logout = async() => { 
+        const res = await api.post("/logout");
+        const result = res.json();
+        console.log(result);
         setUserInitial(null);
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
         localStorage.removeItem('user');
     }
 

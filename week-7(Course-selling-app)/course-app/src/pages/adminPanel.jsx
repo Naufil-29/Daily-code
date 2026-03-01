@@ -1,6 +1,8 @@
+import api from "../utils/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+
 
 export default function AdminPanel() {
 
@@ -24,7 +26,7 @@ export default function AdminPanel() {
   const [myCourses, setMyCourses] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("accessToken");
 
   // ================= USER INITIAL =================
   useEffect(() => {
@@ -43,17 +45,13 @@ export default function AdminPanel() {
   }, []);
 
   const fetchMyCourses = async () => {
-    const res = await fetch("http://localhost:3000/admin/mycourses", {
-      headers: { authorization: `${token}` }
-    });
+    const res = await api.get("http://localhost:3000/admin/mycourses");
     const data = await res.json();
     setMyCourses(data.courses);
   };
 
   const fetchAllCourses = async () => {
-    const res = await fetch("http://localhost:3000/admin/courses", {
-      headers: { authorization: `${token}` }
-    });
+    const res = await api.get("http://localhost:3000/admin/courses");
     const data = await res.json();
     setAllCourses(data.courses);
   };
@@ -92,14 +90,7 @@ export default function AdminPanel() {
   const createCourse = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:3000/admin/course", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `${token}`
-      },
-      body: JSON.stringify(formData)
-    });
+    const res = await api.post("/admin/course", formData);
 
     await res.json();
 
@@ -112,17 +103,7 @@ export default function AdminPanel() {
   const updateCourse = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(
-      `http://localhost:3000/admin/course/${editingCourseId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `${token}`
-        },
-        body: JSON.stringify(formData)
-      }
-    );
+    const res = await api.put(`/admin/course/${id}`);
 
     await res.json();
 
@@ -135,10 +116,7 @@ export default function AdminPanel() {
 
   // ================= DELETE COURSE =================
   const deleteCourse = async (id) => {
-    await fetch(`http://localhost:3000/admin/course/${id}`, {
-      method: "DELETE",
-      headers: { authorization: `${token}` }
-    });
+    await api.delete(`admin/couse/${id}`);
 
     fetchMyCourses();
   };
