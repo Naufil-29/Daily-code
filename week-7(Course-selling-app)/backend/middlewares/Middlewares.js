@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 
 
 export function adminAuth(req, res, next) { 
-    try{ 
+    try{
+      console.log(req.adminId); 
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -21,7 +22,7 @@ export function adminAuth(req, res, next) {
       process.env.JWT_ACCESS_SECRET
     );
 
-    req.userId = decoded._id;
+    req.adminId = decoded.id;
     next();
   } catch (e) {
     console.log("error verifying user", e);
@@ -65,7 +66,7 @@ export function userAuth(req, res, next) {
       process.env.JWT_ACCESS_SECRET
     );
 
-    req.userId = decoded._id;
+    req.userId = decoded.id;
     next();
   } catch (e) {
     console.log("error verifying user", e);

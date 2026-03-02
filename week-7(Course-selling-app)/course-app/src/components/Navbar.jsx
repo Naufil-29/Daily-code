@@ -29,7 +29,7 @@ export default function Navbar({openSignup, openSignin, userInitial, setUserInit
                     <p onClick={() => navigate("/courses")}>Courses</p>
                 </div>
                 <div className="store font-semibold"> 
-                    <p>Store</p>
+                    <p>Purchased</p>
                 </div>
             </div>
             <div className="section-2 flex items-center justify-center gap-5"> 

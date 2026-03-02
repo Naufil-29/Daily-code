@@ -46,13 +46,13 @@ export default function AdminPanel() {
 
   const fetchMyCourses = async () => {
     const res = await api.get("http://localhost:3000/admin/mycourses");
-    const data = await res.json();
+    const data = await res.data;
     setMyCourses(data.courses);
   };
 
   const fetchAllCourses = async () => {
     const res = await api.get("http://localhost:3000/admin/courses");
-    const data = await res.json();
+    const data = await res.data;
     setAllCourses(data.courses);
   };
 
@@ -102,10 +102,10 @@ export default function AdminPanel() {
   // ================= UPDATE COURSE =================
   const updateCourse = async (e) => {
     e.preventDefault();
+    console.log(`${editingCourseId}`)
+    const res = await api.put(`/admin/course/${editingCourseId}`, formData);
 
-    const res = await api.put(`/admin/course/${id}`);
-
-    await res.json();
+    await res.data;
 
     setIsEditing(false);
     setEditingCourseId(null);
@@ -116,7 +116,7 @@ export default function AdminPanel() {
 
   // ================= DELETE COURSE =================
   const deleteCourse = async (id) => {
-    await api.delete(`admin/couse/${id}`);
+    await api.delete(`/admin/course/${id}`);
 
     fetchMyCourses();
   };

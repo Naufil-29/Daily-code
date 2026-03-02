@@ -1,3 +1,4 @@
+import { loadStripe } from "@stripe/stripe-js";
 import { Search } from "lucide-react";
 import axios from "axios";
 import api from "../utils/api";
@@ -86,8 +87,18 @@ export default function CoursesPage() {
             const coursesByBE = response.data.allCourses;
             setCourses(coursesByBE);
             console.log(coursesByBE)
-        }
+        };
 
+        const stripePromise = loadStripe("pk_test_51T6TEt1RChApmdbg5UF1tJBCU0WYFKSfSz6K8EcAkBNTyqToGkLyDCr8Ge46OeJzd5KVqSGejdVCNNgM7i0DRsXr00lrnJqxHh") // publishable key
+
+        const handleBuy = async (courseId) => { 
+          const stripe = await stripePromise;
+
+          const { data } = await api.post("/payment/create-checkout-session", { 
+            courseId
+          });
+          window.location.href = data.url;
+        };
 
 
   return (
@@ -192,8 +203,8 @@ export default function CoursesPage() {
               </select>
 
               {/* Button */}
-              <button className="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition">
-                Purchase
+              <button onClick={() => handleBuy(course._id)} className="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition">
+                Buy Now
               </button>
             </div>
           ))}
