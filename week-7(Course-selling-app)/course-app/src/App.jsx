@@ -7,6 +7,7 @@ import CoursesPage from './pages/courses'
 import AdminPanel from './pages/adminPanel'
 import ProtectedAdminRoute from './components/ProtectedAdminRoute'
 import PaymentSuccess from './pages/paymentSuccess'
+import PurchasedCourses from './pages/purchasedCourses'
 
 function App() {
   return(
@@ -19,8 +20,9 @@ function App() {
         <AdminPanel/>
       </ProtectedAdminRoute>
       }/>
-    <Route path="payment-success" element={<PaymentSuccess/>}/>
+    <Route path="/payment-success" element={<PaymentSuccess/>}/>
     <Route path="/payment-cancel" element={<h1>Payment Cancelled ❌</h1>} />
+    <Route path="/purchased" element={<PurchasedCourses/>} />
   </Routes>
 </BrowserRouter>
   )

@@ -1,12 +1,10 @@
 import { stripe } from "../config/stripe.js";
-import { CourseModel } from "../Models/models.js";
+import { CourseModel, UserModel } from "../Models/models.js";
 
 export const createChekcoutSession = async (req, res) => { 
     try{ 
       const { courseId } = req.body;
       const userId = req.userId
-      console.log("userId ", userId);
-      console.log("courseId ", courseId);
 
       const course = await CourseModel.findById(courseId);
 
@@ -37,7 +35,6 @@ export const createChekcoutSession = async (req, res) => {
             courseId: courseId.toString(),
         },
       });
-        console.log(session.metadata);
       res.json({url: session.url})
     }
     catch(e){ 
@@ -48,20 +45,27 @@ export const createChekcoutSession = async (req, res) => {
 
 
 export const verifyPayment = async (req, res) => {
-    const { sessionId } = req.body;
-    console.log("sessionId ", sessionId);
+    try{ 
+        const { sessionId } = req.body;
 
-    const session = stripe.checkout.sessions.retrieve(sessionId);
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     if(session.payment_status !== "paid"){ 
         return res.status(404).json({Msg: "payment is not completed"});
     }
 
     const { userId, courseId } = session.metadata;
+    console.log(userId, courseId);
+    const course = await CourseModel.findById(courseId);
 
     await UserModel.findByIdAndUpdate( userId,
         { $addToSet: { purchasedCourses: courseId } }
     );
 
-    res.json({ message: "Course added successfully" });
+    res.json({ message: "Course added successfully", course });
+    }
+    catch(e){ 
+        console.log('verifying-payment-error', e);
+        return res.status(500).json({Msg: "error verifying payment"})
+    };
 };

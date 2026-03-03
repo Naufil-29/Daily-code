@@ -7,7 +7,7 @@ import { connectDB } from './config/db.js';
 import adminRoutes from './routes/adminRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import globalRoutes from './routes/globalRoutes.js';
-import paymentRoutes from './routes/paymentsRoutes.js';
+import paymentRoutes from './routes/paymentsRoutes.js'
 
 connectDB();
 

@@ -50,7 +50,7 @@ export default function FeaturedCohorts() {
             />
 
             {/* Content */}
-            <div className="p-6 flex flex-col flex-grow">
+            <div className="p-6 flex flex-col grow">
               <h3 className="text-lg font-semibold mb-3">
                 {course.title}
               </h3>
@@ -79,8 +79,8 @@ export default function FeaturedCohorts() {
               </select>
 
               {/* Button */}
-              <button className="bg-[#0B1F5E] text-white py-3 rounded-xl font-medium hover:opacity-90 transition mt-auto">
-                View Details
+              <button onClick={() => window.location.href = "/courses"} className="bg-[#0B1F5E] text-white py-3 rounded-xl font-medium hover:opacity-90 transition mt-auto">
+                view Details
               </button>
             </div>
           </div>

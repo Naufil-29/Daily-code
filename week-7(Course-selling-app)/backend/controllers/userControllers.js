@@ -139,10 +139,7 @@ export const purchasedCourses =  async(req, res) => {
         console.log(userId);
 
         const user = await UserModel.findById(userId)
-        .populate({ 
-            path: "purchasedCourses",
-            select: "title price"
-        });
+        .populate("purchasedCourses");
 
         if(!user){ 
             return res.status(404).json({ 

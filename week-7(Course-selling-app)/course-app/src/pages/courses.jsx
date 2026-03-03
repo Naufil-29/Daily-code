@@ -11,6 +11,7 @@ import web3Img from "../assets/web3.jpg";
 import combinetImg from "../assets/combined.jpg";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import NavbarSearch from "../components/NavbarSearch";
 
 export default function CoursesPage() {
 
@@ -141,12 +142,11 @@ export default function CoursesPage() {
           </p>
 
           {/* Search Bar */}
-          <div className="w-full max-w-2xl bg-white rounded-full flex items-center px-5 py-3 shadow-lg">
-            <Search className="text-gray-400 mr-3" />
-            <input
+          <div className="w-full max-w-2xl bg-white rounded-full flex items-center px-5 py-3 shadow-lg text-black">
+            <Search className="text-black mr-3 border-0" />
+            <NavbarSearch
               type="text"
-              placeholder="Search for courses, topics, technologies..."
-              className="w-full outline-none text-gray-700"
+              
             />
           </div>
         </div>

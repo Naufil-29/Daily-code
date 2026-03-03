@@ -2,7 +2,7 @@ import { Search } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
-
+import NavbarSearch from "./NavbarSearch.jsx";
 
 export default function Navbar({openSignup, openSignin, userInitial, setUserInitial}){ 
     const [isLogged, setIsLogged] = useState(false);
@@ -15,12 +15,13 @@ export default function Navbar({openSignup, openSignin, userInitial, setUserInit
         setUserInitial(null);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('user');
+        window.location.href = "/";
     }
 
     return<div className="fixed z-50 top-0 bg-white w-full h-18 border border-gray-300 flex items-center justify-between pl-20 pr-30"> 
-            <div className="section-1 flex items-center justify-center gap-10"> 
+            <div className="section-1 flex items-center justify-center gap-10 text-black"> 
                 <div className="logo"> 
-                    <p className='font-extrabold text-xl'>100<span className='text-red-600'>x</span>Devs</p>
+                    <p className='font-extrabold text-xl text-black'>100<span className='text-red-600'>x</span>Devs</p>
                 </div>
                 <div className="home font-semibold"> 
                     <p onClick={() => navigate("/")}>Home</p>
@@ -29,13 +30,13 @@ export default function Navbar({openSignup, openSignin, userInitial, setUserInit
                     <p onClick={() => navigate("/courses")}>Courses</p>
                 </div>
                 <div className="store font-semibold"> 
-                    <p>Purchased</p>
+                    <p onClick={() => navigate("/purchased")} >Purchased</p>
                 </div>
             </div>
             <div className="section-2 flex items-center justify-center gap-5"> 
                 <div className="border flex items-center justify-center rounded-xl gap-2 pl-2 text-gray-300 hover:border-blue-700 hover:text-black"> 
                     <Search size={15}/>
-                    <input className="py-1 border-0 outline-none rounded-xl" type="text" placeholder= "Type to search"/>
+                    <NavbarSearch className="py-1 border-0 outline-none rounded-xl text-black" type="text" placeholder= "Type to search"/>
                 </div>
                 {!userInitial ? ( 
                     <div className="btns flex items-center justify-between gap-5"> 

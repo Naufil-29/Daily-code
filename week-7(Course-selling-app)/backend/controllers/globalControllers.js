@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { UserModel, AdminModel } from "../Models/models.js";
+import { UserModel, AdminModel, CourseModel } from "../Models/models.js";
 
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
@@ -62,4 +62,24 @@ export const logout =  async (req, res) => {
 
   res.clearCookie("refreshToken");
   res.json({ message: "Logged out" });
+};
+
+export const searchCourses = async (req, res) => { 
+  try{ 
+    const { q } = req.query;
+
+    if(!q){ 
+      return res.json({ courses: [] });
+    }
+
+    const courses = await CourseModel.find({ 
+      title: { $regex: q, $options: "i" } // case insensitive search
+    }).limit(5);  // limit result for drop down
+
+    res.json({ courses });
+  }
+  catch(e){ 
+    console.log("serch-error", e);
+    return res.status(500).json({ Msg:"error-searching-courses" })
+  }
 }
