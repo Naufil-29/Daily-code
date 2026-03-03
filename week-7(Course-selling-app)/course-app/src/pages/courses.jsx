@@ -1,6 +1,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { Search } from "lucide-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import { useState, useEffect } from "react";
 import SignIn from "../components/Signin";
@@ -70,6 +71,7 @@ export default function CoursesPage() {
         const [showSignin, setShowSignin] = useState(false);
         const [userInitial, setUserInitial] = useState(null);
         const [courses, setCourses] = useState(coursesBYFE);
+        const navigate = useNavigate()
         const token = localStorage.getItem('accessToken');
     
         useEffect(() => { 
@@ -84,10 +86,7 @@ export default function CoursesPage() {
 
         const getAllCourses = async() => { 
             const response = await api.get("/users/courses");
-
-            const coursesByBE = response.data.allCourses;
-            setCourses(coursesByBE);
-            console.log(coursesByBE)
+            setCourses(response.data.updatedCourses)
         };
 
         const stripePromise = loadStripe("pk_test_51T6TEt1RChApmdbg5UF1tJBCU0WYFKSfSz6K8EcAkBNTyqToGkLyDCr8Ge46OeJzd5KVqSGejdVCNNgM7i0DRsXr00lrnJqxHh") // publishable key
@@ -99,6 +98,7 @@ export default function CoursesPage() {
             courseId
           });
           window.location.href = data.url;
+          await getAllCourses();
         };
 
 
@@ -203,9 +203,17 @@ export default function CoursesPage() {
               </select>
 
               {/* Button */}
-              <button onClick={() => handleBuy(course._id)} className="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition">
-                Buy Now
-              </button>
+              {course.isPurchased ? ( 
+                <button onClick={() => navigate(`/course/${course._id}`)}
+                  className="mt-4 bg-green-600 text-white w-full py-3 rounded-lg">
+                    View Content
+                </button>
+              ) : ( 
+                <button onClick={() => handleBuy(course._id)}
+                  className="mt-4 bg-blue-600 text-white px-4 w-full py-3 rounded-lg">
+                  Buy Now
+                </button>
+              )}
             </div>
           ))}
         </div>

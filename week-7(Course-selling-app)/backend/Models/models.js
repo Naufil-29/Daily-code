@@ -50,7 +50,12 @@ const courseSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     oldPrice: { type: Number },
     image: { type: String },
-    discount: { type: Number }
+    discount: { type: Number },
+    desc: { type: String, default: "" },
+    video : { 
+        type: String,
+        required: false
+    }
 });
 
 export const AdminModel = mongoose.model("Admin", adminSchema);

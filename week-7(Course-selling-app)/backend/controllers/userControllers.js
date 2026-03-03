@@ -85,10 +85,21 @@ export const userSignin = async(req, res) => {
 export const getAllCourses = async(req, res) => { 
     try{ 
         const allCourses = await CourseModel.find();
+        const user = await UserModel.findById(req.userId);
+
+        const updatedCourses = allCourses.map(allCourse => { 
+            const isPurchased = user.purchasedCourses.some( 
+                id => id.toString() === allCourse._id.toString()
+            );
+            return{ 
+                ...allCourse.toObject(),
+                isPurchased
+            }
+        })
 
         res.status(201).json({ 
             Msg: 'all courses',
-             allCourses
+             updatedCourses
         });
     }
     catch(e){ 
@@ -159,3 +170,31 @@ export const purchasedCourses =  async(req, res) => {
         });
     }
 };
+
+export const getOneCourse = async(req, res) => { 
+    try{ 
+        const {courseId} = req.params;
+
+        let course = await CourseModel.findById(courseId);
+        const user = await UserModel.findById(req.userId);
+        const hasPurchased = user.purchasedCourses.includes(courseId);
+
+        if(!course){ 
+        return res.status(404).json({Msg: "course not found"})
+        }
+
+        let courseData = course.toObject();
+
+        if(!hasPurchased){ 
+            courseData.video = null
+        }
+
+        course = courseData
+
+        res.status(200).json({ Msg: "course found", course });
+    }
+    catch(e){ 
+        console.log("error-fetching-Onecourse", e);
+        return res.status(500).json({Msg: "error-fetching-Onecourse"})
+    }
+}

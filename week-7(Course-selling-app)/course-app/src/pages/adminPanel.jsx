@@ -68,7 +68,9 @@ export default function AdminPanel() {
       price: "",
       oldPrice: "",
       discount: "",
-      image: ""
+      image: "",
+      desc: "",
+      video
     });
   };
 
@@ -82,7 +84,8 @@ export default function AdminPanel() {
       price: course.price,
       oldPrice: course.oldPrice,
       discount: course.discount,
-      image: course.image
+      image: course.image,
+      video: course.video
     });
   };
 
@@ -185,6 +188,22 @@ export default function AdminPanel() {
               className="border p-3 rounded-xl border-gray-300 md:col-span-2"
             />
 
+             <input
+                name="video"
+              value={formData.video}
+              placeholder="Video URL"
+              onChange={handleChange}
+              className="border p-3 rounded-xl border-gray-300 md:col-span-2"
+              />
+
+            <textarea
+              name="desc"
+              placeholder="Enter course description"
+              value={formData.desc}
+              onChange={handleChange}
+              className="w-full p-3 rounded-xl border border-gray-300 md:col-span-2"
+            />
+
             <button
               type="submit"
               className="bg-blue-900 text-white py-3 rounded-xl"
@@ -211,6 +230,8 @@ export default function AdminPanel() {
                   alt={course.title}
                   className="h-40 w-full object-cover rounded mb-3"
                 />
+
+               
 
                 <h3 className="font-semibold mb-2">
                   {course.title}

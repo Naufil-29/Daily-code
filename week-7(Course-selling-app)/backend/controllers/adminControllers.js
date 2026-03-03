@@ -60,7 +60,7 @@ export const adminSignin = async(req, res) => {
     const accessToken = jwt.sign({ 
         id: existingAdmin._id,
         role: existingAdmin.role
-    }, JWT_ACCESS_SECRET, { expiresIn: "15m" });
+    }, JWT_ACCESS_SECRET, { expiresIn: "1d" });
 
     const refreshToken = jwt.sign({
         id: existingAdmin._id
@@ -103,7 +103,10 @@ export const createCourse = async(req, res) => {
         price: ValidData.price,
         oldPrice: ValidData.oldPrice,
         discount: ValidData.discount,
-        image: ValidData.image
+        image: ValidData.image,
+        desc: ValidData.desc,
+        video: ValidData.video,
+        creator: req.adminId
     });
 
     res.status(201).json({ 

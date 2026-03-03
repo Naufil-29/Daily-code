@@ -10,7 +10,7 @@ export default function Navbar({openSignup, openSignin, userInitial, setUserInit
 
     const logout = async() => { 
         const res = await api.post("/logout");
-        const result = res.json();
+        const result = res.data;
         console.log(result);
         setUserInitial(null);
         localStorage.removeItem('accessToken');

@@ -5,5 +5,6 @@ export const courseZodSchema = z.object({
     price: z.coerce.number(),
     oldPrice: z.coerce.number(),
     discount: z.coerce.number(),
-    image: z.string()
+    image: z.string(),
+    video: z.string().url().optional()
 });

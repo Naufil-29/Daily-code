@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import Navbar from "../components/Navbar";
 
 export default function PurchasedCourses(){ 
+    const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [userInitial, setUserInitial] = useState(null);
@@ -83,7 +85,7 @@ export default function PurchasedCourses(){
                   {course.description}
                 </p>
 
-                <button className="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition">
+                <button onClick={() => navigate(`/course/${course._id}`)} className="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition">
                   Continue Learning 🚀
                 </button>
               </div>
