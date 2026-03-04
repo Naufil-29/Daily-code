@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { z } from "zod";
 import { UserModel, CourseModel } from "../Models/models.js";
 import { userSignupSchema, userSigninSchema } from "../validations/userValidations.js";
@@ -10,15 +11,25 @@ export const userSignup = async(req, res) => {
     try{ 
         const result = userSignupSchema.safeParse(req.body);
 
-        if(!result){ 
+        if(!result.success){ 
             return res.status(401).json({ 
             Msg: 'incorrect input or syntax error'
             })
         }
+        const { username, email, password } = result.data;
+        const saltRounds = 10;
 
-        const validData = result.data;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const newUser = await UserModel.create(validData);
+        const existingUser = await UserModel.findOne({email});
+
+        if(existingUser){ 
+            return res.status(409).json({ Msg: "User already exists"})
+        }
+
+        const newUser = await UserModel.create({ 
+            username, email, password: hashedPassword
+        });
 
         res.status(200).json({ 
             Msg: 'new user created successfully',
@@ -36,11 +47,31 @@ export const userSignin = async(req, res) => {
     try{ 
         const result = userSigninSchema.safeParse(req.body);
 
-        if(!result){ 
+        if(!result.success){ 
             return res.status(400).json({ 
             Msg: 'incorrect input or syntax error'
             });
         }
+
+        const { email, password } = result.data;
+
+            // 2️⃣ Find user
+        const user = await UserModel.findOne({ email }).select("+password");
+
+        if (!user) {
+            return res.status(404).json({
+            Msg: "Invalid email or password"
+            });
+        }
+
+         const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(401).json({
+             Msg: "Invalid credentials"
+            });
+        }
+
 
         const validData = result.data;
 

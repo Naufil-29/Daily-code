@@ -9,10 +9,12 @@ import ProtectedAdminRoute from './components/ProtectedAdminRoute'
 import PaymentSuccess from './pages/paymentSuccess'
 import PurchasedCourses from './pages/purchasedCourses'
 import CourseDetailPage from './pages/CourseDetailPage'
+import { Toaster } from "react-hot-toast"
 
 function App() {
   return(
 <BrowserRouter> 
+    <Toaster position='top-center'/>
   <Routes> 
     <Route path="/" element={<HomePage/>}/>
     <Route path="/courses" element={<CoursesPage/>}/>

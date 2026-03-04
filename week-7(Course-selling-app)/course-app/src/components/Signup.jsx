@@ -3,44 +3,103 @@ import Button from './Button';
 import Input from './Input';
 import { X } from 'lucide-react';
 import axios from 'axios';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function SignUp({closeSignup, openSignin}) { 
-    let emailRef = useRef();
-    let usernameRef = useRef();
-    let passwordRef = useRef();
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState({ 
+        username: "",
+        email: "",
+        password: ""
+    });
+    const [errors, setErrors] = useState({ 
+        username: "",
+        email: "",
+        password: ""
+    });
+
+    const validate = (name, value) => { 
+        let newErrors = "";
+
+        if(name === "username"){ 
+            if(!value || value.length < 3){ 
+                console.log(value)
+                newErrors = "Username must be atleast 3 characters";
+                console.log(newErrors)
+        }
+        }
+
+        if(name === "email"){ 
+            console.log(value)
+            if(!/\S+@\S+\.\S+/.test(value)){ 
+            newErrors = "Invalid email address"
+        }
+        }
+
+        if(name === "password"){ 
+            if(!value || value.length < 6){ 
+            newErrors = "Password must be atleast 6 characters"
+            console.log(newErrors)
+        }
+        }
+        setErrors((prev) => ({ 
+            ...prev,
+            [name]: newErrors
+        }));
+        return newErrors
+    };
+
+    const handleChange = (e) => { 
+        const { name, value } = e.target;
+
+        setFormData((prev) => ({ 
+            ...prev,
+            [name]: value
+        }));
+
+        validate(name, value); // Live validation
+    };
 
     const signup = async () => {
-    try {
-        let email = emailRef.current.value;
-        let username = usernameRef.current.value;
-        let password = passwordRef.current.value;
+        try {
+            if (Object.values(errors).some((err) => err !== "")) {
+                toast.error("Please fix errors first");
+                return;
+            }
 
-        console.log("email:", email);
-        console.log("username:", username);
-        console.log("password:", password);
+            setLoading(true);
 
         const response = await axios.post(
-         "http://localhost:3000/users/signup",
-          {
-            username,
-            email,
-            password
-          });
+         "http://localhost:3000/users/signup", formData);
 
           
           const result = response.data;
           console.log(result);
+          toast.success("user created successfully")
+          
 
           closeSignup();
           openSignin();
 
   } catch (err) {
     console.error("Signup error:", err);
+    toast.error("error creating user")
   }
+  finally{ 
+    setLoading(false)
+  }
+
+
 };
-    return( 
-        <div className="main fixed  z-50 w-screen h-screen bg-black/30 backdrop-blur-sm flex items-center justify-center"> 
+return( 
+    <div className="main fixed top-0 z-50 w-screen h-screen bg-black/30 backdrop-blur-sm flex items-center justify-center"> 
+    {loading && (
+      <div className="w-[20%] h-[20%] absolute left-215 flex flex-col items-center gap-5 p-5 rounded-xl justify-center mt-2 bg-black/10 backdrop-blur-lg">
+        <div className="w-15 h-15 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+        <p>loading please wait...</p>
+      </div>
+    )}
             <div className="card w-[70%] h-[80%] bg-white rounded-xl  p-8 flex items-center justify-center"> 
                 <div className="img-section relative w-full h-full rounded-xl flex items-center justify-center bg-linear-to-br from-[#020A3F] via blue-900 to-[#020A3F] text-white">
                     <div className='absolute top-0  p-4 w-[90%]'>
@@ -60,16 +119,16 @@ export default function SignUp({closeSignup, openSignin}) {
 
                     <div className='form-input'> 
                         <div className="username-input"> 
-                            <Input ref={usernameRef} heading="Username" placeholder="Enter your username" />
+                            <Input errors={errors.username} onChange={handleChange} name="username" value={formData.username} heading="Username" placeholder="Enter your username" />
                         </div>
                         <div className="email-input"> 
-                            <Input ref={emailRef} heading="Email" placeholder="Enter your email" />
+                            <Input errors={errors.email} onChange={handleChange} name="email" value={formData.email} heading="Email" placeholder="Enter your email" />
                         </div>
                         <div className="password-input"> 
-                            <Input ref={passwordRef} heading="Password" placeholder="Enter your password" />
+                            <Input errors={errors.password} onChange={handleChange} name="password" value={formData.password} heading="Password" placeholder="Enter your password" />
                         </div>
-                        <div className='singup-button' onClick={signup}> 
-                            <Button text="Signup" />
+                        <div className='singup-button disabled:bg-blue-900 disabled:text-black' onClick={signup}> 
+                            <Button loading={loading} className="singup-button" text="Signup"/>
                         </div>
                     </div>
                 </div>

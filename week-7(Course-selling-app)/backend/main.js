@@ -1,8 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
+import { rateLimiter } from './rateLimiters.js';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import cors from 'cors';
+import { createClient } from "redis";
 import { connectDB } from './config/db.js';
 import adminRoutes from './routes/adminRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -15,6 +17,7 @@ const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
+app.use(rateLimiter);
 app.use("/admin", adminRoutes);
 app.use("/users", userRoutes);
 app.use("/", globalRoutes);

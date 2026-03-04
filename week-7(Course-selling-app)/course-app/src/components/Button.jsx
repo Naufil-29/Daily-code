@@ -1,7 +1,7 @@
 
 
-export default function Button({text}){ 
+export default function Button({text, loading}){ 
     return( 
-        <button className='w-full rounded-xl py-2 bg-blue-900 text-white'>{text}</button>
+        <button disabled={loading} className='w-full rounded-xl py-2 bg-blue-700 text-white font-bold disabled:bg-blue-900 disabled:text-black'>{text}</button>
     )
 }

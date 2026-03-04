@@ -5,11 +5,72 @@ import Button from './Button';
 import Input from './Input';
 import { X } from 'lucide-react';
 import { useState, useRef } from 'react';
+import toast from 'react-hot-toast';
 
 export default function SignIn({closeSignin, setUserInitial}) { 
     const emailRef = useRef();
     const passwordRef = useRef();
+    const [loading, setLoading] = useState(false);
+
+    const [formData, setFormData] = useState({ 
+        username: "",
+        email: "",
+        password: ""
+    });
+    const [errors, setErrors] = useState({ 
+        username: "",
+        email: "",
+        password: ""
+    });
+
+    const validate = (name, value) => { 
+        let newErrors = "";
+
+        if(name === "username"){ 
+            if(!value || value.length < 3){ 
+                console.log(value)
+                newErrors = "Username must be atleast 3 characters";
+                console.log(newErrors)
+        }
+        }
+
+        if(name === "email"){ 
+            console.log(value)
+            if(!/\S+@\S+\.\S+/.test(value)){ 
+            newErrors = "Invalid email address"
+        }
+        }
+
+        if(name === "password"){ 
+            if(!value || value.length < 6){ 
+            newErrors = "Password must be atleast 6 characters"
+            console.log(newErrors)
+        }
+        }
+        setErrors((prev) => ({ 
+            ...prev,
+            [name]: newErrors
+        }));
+        return newErrors
+    };
+
+    const handleChange = (e) => { 
+        const { name, value } = e.target;
+
+        setFormData((prev) => ({ 
+            ...prev,
+            [name]: value
+        }));
+
+        validate(name, value); // Live validation
+    };
+
     const signin = async() => { 
+        if (Object.values(errors).some((err) => err !== "")) {
+                toast.error("Please fix errors first");
+                return;
+            }
+        setLoading(true)
         try{ 
         let email = emailRef.current.value;
         let password = passwordRef.current.value;
@@ -28,16 +89,26 @@ export default function SignIn({closeSignin, setUserInitial}) {
          const accessToken = response.data.accessToken;
          localStorage.setItem('accessToken', accessToken);
          localStorage.setItem('user', JSON.stringify(user));
-
+         toast.success("you are signedIn");
          closeSignin();
         }
         catch(err){ 
             console.error("Signip error:", err);
+            toast.error("error signingIn");
+        }
+        finally{ 
+            setLoading(false)
         }
     }
 
     return( 
-        <div className="main fixed inset-0 z-50 w-screen h-screen bg-black/30 backdrop-blur-sm flex items-center justify-center transition-all"> 
+        <div className="main fixed inset-0 z-50 w-screen h-screen bg-black/30 backdrop-blur-sm flex items-center justify-center transition-all">
+            {loading && (
+                <div className="w-[20%] h-[20%] absolute left-215 flex flex-col items-center gap-5 p-5 rounded-xl justify-center mt-2 bg-black/10 backdrop-blur-lg">
+                <div className="w-15 h-15 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                    <p>loading please wait...</p>
+                </div>
+            )} 
             <div className="card w-[70%] h-[80%] bg-white rounded-xl p-8 flex items-center justify-center"> 
                 <div className="img-section relative w-full h-full rounded-xl flex items-center justify-center bg-linear-to-br from-[#020A3F] via blue-900 to-[#020A3F] text-white">
                     <div className='absolute top-0  p-4 w-[90%]'>
@@ -57,13 +128,13 @@ export default function SignIn({closeSignin, setUserInitial}) {
 
                     <div className='form-input'> 
                         <div className="email-input"> 
-                            <Input ref={emailRef} heading="Email" placeholder="Enter your email" />
+                            <Input errors={errors.email} onChange={handleChange} name="email" value={formData.email} heading="Email" placeholder="Enter your email" />
                         </div>
                         <div className="password-input"> 
-                            <Input ref={passwordRef} heading="Password" placeholder="Enter your password" />
+                            <Input errors={errors.password} onChange={handleChange} name="password" value={formData.password} heading="Password" placeholder="Enter your password" />
                         </div>
-                        <div className='singup-button' onClick={signin}> 
-                            <Button text="Signin" />
+                        <div disabled={loading} className='singup-button disabled:bg-blue-900 disabled:text-black' onClick={signin}> 
+                            <Button loading={loading} className="singup-button" text="Signin"/>
                         </div>
                     </div>
                 </div>
