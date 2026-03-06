@@ -82,7 +82,7 @@ export default function PaymentSuccess() {
         </div>
       </div>
         <button className="mt-20 px-20 py-3 rounded-2xl text-xl font-bold bg-red-600 overflow-hidden transform hover:scale-105 transition duration-300" 
-        onClick={() => window.location.href = "/purchased"}>Back To Home</button>
+        onClick={() => window.location.href = "/courses"}>Back To Home</button>
     </div>
   );
-}
+};

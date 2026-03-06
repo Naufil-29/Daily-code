@@ -72,15 +72,7 @@ export default function SignIn({closeSignin, setUserInitial}) {
             }
         setLoading(true)
         try{ 
-        let email = emailRef.current.value;
-        let password = passwordRef.current.value;
-         console.log('email', email);
-         console.log('password', password);
-        
-         const response = await api.post("/users/signin", { 
-            email: email,
-            password: password
-         });
+         const response = await api.post("/users/signin",formData);
 
          const user = response.data.user;
          const firstChar = user.username[0].toUpperCase();
@@ -94,7 +86,7 @@ export default function SignIn({closeSignin, setUserInitial}) {
         }
         catch(err){ 
             console.error("Signip error:", err);
-            toast.error("error signingIn");
+            toast.error("error In singIn");
         }
         finally{ 
             setLoading(false)
