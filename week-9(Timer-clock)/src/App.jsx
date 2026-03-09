@@ -2,16 +2,35 @@ import { useState, useRef, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const [totalTime, setTotalTime] = useState(0)
-  const [inputTime, setInputTime] = useState("")
+  const [displayTime, setDisplayTime] = useState("00:00:00");
+  const [totalTime, setTotalTime] = useState(0);
   const [timeLeft, setTimeLeft] = useState(totalTime);
   const [isRunning, setIsRunning] = useState(false);
 
   const radius = 200;
   const circumference = 2 * Math.PI * radius;
 
-  const progress = timeLeft / totalTime;
+  const progress = totalTime === 0 ? 0 : timeLeft / totalTime;
   const offset = circumference * (1 - progress);
+
+    function timeToSeconds(time) { 
+    const[h, m, s] = time.split(":").map(Number);
+    return h * 3600 + m * 60 + s;
+  };
+
+  function secondsTotime(seconds){ 
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const second = seconds % 60;
+
+    return ( 
+      String(hours).padStart(2, "0") +
+      ":"+
+      String(minutes).padStart(2, "0") +
+      ":"+
+      String(second).padStart(2, "0")
+    )
+  }
 
   useEffect(() => {
 
@@ -21,13 +40,16 @@ function App() {
 
       setTimeLeft(prev => {
 
-        if (prev === 0) {
+        if (prev <= 1) {
           clearInterval(interval);
-          setIsRunning(false)
+          setIsRunning(false);
+          setDisplayTime("00:00:00");
           return 0;
         }
 
-        return prev - 1;
+        const next =  prev - 1;
+        setDisplayTime(secondsTotime(next));
+        return next;
       });
 
     }, 1000);
@@ -36,6 +58,8 @@ function App() {
 
   }, [isRunning]);
 
+
+
   function startTime() {
 
   if (isRunning) {
@@ -43,18 +67,34 @@ function App() {
     return
   }
 
-  let time = Number(inputTime)
-
   if (timeLeft === 0) {
-    setTotalTime(time)
-    setTimeLeft(time)
+    const seconds = timeToSeconds(displayTime)
+    setTotalTime(seconds)
+    setTimeLeft(seconds)
   }
 
   setIsRunning(true)
 }
 
-const minutes = Math.floor(timeLeft / 60)
-  const seconds = timeLeft % 60
+  function resetTimer() {
+
+    setIsRunning(false)
+    setTimeLeft(0)
+    setTotalTime(0)
+    setDisplayTime("00:00:00")
+
+  }
+
+  function formatInput(value){ 
+    const numbers = value.replace(/\D/g, "").slice(0, 6)
+    const padded = numbers.padStart(6, "0");
+
+    const h = padded.slice(0, 2)
+    const m = padded.slice(2, 4)
+    const s = padded.slice(4, 6)
+
+    return `${h}:${m}:${s}`
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen bg-gray-900 text-white">
@@ -71,7 +111,7 @@ const minutes = Math.floor(timeLeft / 60)
         />
 
         <circle
-          cx="0"
+          cx="220"
           cy="220"
           r={radius}
           stroke="cyan"
@@ -80,29 +120,30 @@ const minutes = Math.floor(timeLeft / 60)
           strokeDasharray={circumference}
           strokeDashoffset={offset}
           strokeLinecap="round"
-          transform="rotate(-90 110 110)"
+          transform="rotate(-90 220 220)"
         />
 
       </svg>
 
-      <h1 className="text-4xl mt-6">{minutes}:{seconds}s</h1>
+      <h1 className="text-4xl font-bold mt-6" contentEditable={!isRunning} suppressContentEditableWarning onInput={(e) => { 
+        const formatted = formatInput(e.target.innerText)
+        setDisplayTime(formatted)
+        e.target.value = formatted
+      }}>{displayTime}</h1>
 
       <div className="flex gap-4 mt-4 text-black">
-        <input className='text-white' type='number' value={inputTime} placeholder='enter time' onChange={(e) => setInputTime(e.target.value)}/>
+      
 
         <button
           className="bg-green-500 px-4 py-2 rounded"
           onClick={startTime}
         >
-          Start / Pause
+          {isRunning ? "Pause" : "Start"}
         </button>
 
         <button
           className="bg-red-500 px-4 py-2 rounded"
-          onClick={() => {
-            setIsRunning(false);
-            setTimeLeft(totalTime);
-          }}
+          onClick={resetTimer}
         >
           Reset
         </button>
