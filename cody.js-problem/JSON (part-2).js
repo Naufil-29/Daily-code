@@ -178,28 +178,99 @@
 // (All values are rounded to 2 decimal places)
 
 
-const order = {
-  "Sushi Platter": {"price": 45.99, "quantity": 2, "isSpecialOffer": true}, 
-  "Green Tea": {"price": 3.50, "quantity": 4, "isSpecialOffer": false}, 
-  "Miso Soup": {"price": 2.99, "quantity": 3, "isSpecialOffer": true}
+// const order = {
+//   "Sushi Platter": {"price": 45.99, "quantity": 2, "isSpecialOffer": true}, 
+//   "Green Tea": {"price": 3.50, "quantity": 4, "isSpecialOffer": false}, 
+//   "Miso Soup": {"price": 2.99, "quantity": 3, "isSpecialOffer": true}
+// }
+
+// function calculateRestaurantBill(order){ 
+//   let totalBeforeDiscount = 0;
+//   let totalDiscount = 0;
+
+//   for(const item of Object.values(order)){ 
+//     let itemTotal = item.price * item.quantity;
+//     totalBeforeDiscount += itemTotal;
+
+//     if(item.isSpecialOffer){ 
+//       let discount = itemTotal * 0.2
+//       totalDiscount += discount
+//     }
+//   }
+
+//   let finalTotal = totalBeforeDiscount - totalDiscount
+//   console.log(totalBeforeDiscount, totalDiscount, finalTotal)
+// }
+
+// calculateRestaurantBill(order)
+
+
+
+// Create a function named processCart that takes a JSON string representing a shopping cart. The cart contains an array of products with names and prices. Your task is to:
+
+// Parse the JSON string into a JavaScript object
+// Create TWO separate carts from it
+// In the second cart:
+// Add a discounted property to each item set to false
+// Apply a 10% discount to all items that have price greater than 50
+// Set 'discounted' to true for items that received the discount
+// Return an array containing both carts
+
+
+// const shoppingCart = [
+//   {"name": "Laptop", "price": 999}, 
+//   {"name": "Mouse", "price": 25}, 
+//   {"name": "Keyboard", "price": 60}
+// ]
+
+// function processCart(jsonString){ 
+//   let originalObject = JSON.parse((jsonString));
+//   let discountedObject = JSON.parse((jsonString));
+//   let discounted = false;
+
+//   for(let i = 0; i < discountedObject.length; i++){ 
+//     let newObj = discountedObject[i];
+//     if(newObj.price > 50){ 
+//       newObj["discounted"] = true;
+//       newObj.price = newObj.price - (newObj.price * 10 / 100);
+//     }
+//     else{
+//     newObj["discounted"] = discounted;
+//     }
+//   }
+//   return[originalObject, discountedObject]
+// }
+
+// let bill = processCart(shoppingCart)
+// console.log("bill = ", bill)
+
+
+// Create a function named updateBikeInventory that takes one argument, a JSON string inventoryStr.
+// Parse it into an object, where inventoryStr has a bikes array. Each bike has brand, price, and quantity.
+// If a bike's quantity is less than 3, add or update a key note with the value "Restock needed" for that bike.
+// Return the updated object as a JSON string.
+
+const bikeInventory = {
+  "bikes": [
+    {"brand": "Trek", "price": 999.99, "quantity": 2}, 
+    {"brand": "Giant", "price": 799.99, "quantity": 5}
+  ]
 }
 
-function calculateRestaurantBill(order){ 
-  let totalBeforeDiscount = 0;
-  let totalDiscount = 0;
-
-  for(const item of Object.values(order)){ 
-    let itemTotal = item.price * item.quantity;
-    totalBeforeDiscount += itemTotal;
-
-    if(item.isSpecialOffer){ 
-      let discount = itemTotal * 0.2
-      totalDiscount += discount
+function updateBikeInventory(inventoryStr){ 
+  let updatedObj = JSON.parse(JSON.stringify(inventoryStr));
+  
+  for(let i = 0; i < updatedObj.bikes.length; i++){ 
+    let newObj = updatedObj.bikes[i];
+    if(newObj.quantity < 3){ 
+      newObj["note"] = "restock needed"
     }
   }
 
-  let finalTotal = totalBeforeDiscount - totalDiscount
-  console.log(totalBeforeDiscount, totalDiscount, finalTotal)
+  return updatedObj
+
 }
 
-calculateRestaurantBill(order)
+let result = updateBikeInventory(bikeInventory)
+console.log(result)
+
