@@ -250,27 +250,30 @@
 // If a bike's quantity is less than 3, add or update a key note with the value "Restock needed" for that bike.
 // Return the updated object as a JSON string.
 
-const bikeInventory = {
-  "bikes": [
-    {"brand": "Trek", "price": 999.99, "quantity": 2}, 
-    {"brand": "Giant", "price": 799.99, "quantity": 5}
-  ]
-}
+// const bikeInventory = {
+//   "bikes": [
+//     {"brand": "Trek", "price": 999.99, "quantity": 2}, 
+//     {"brand": "Giant", "price": 799.99, "quantity": 5}
+//   ]
+// }
 
-function updateBikeInventory(inventoryStr){ 
-  let updatedObj = JSON.parse(JSON.stringify(inventoryStr));
+// function updateBikeInventory(inventoryStr){ 
+//   let updatedObj = JSON.parse(JSON.stringify(inventoryStr));
   
-  for(let i = 0; i < updatedObj.bikes.length; i++){ 
-    let newObj = updatedObj.bikes[i];
-    if(newObj.quantity < 3){ 
-      newObj["note"] = "restock needed"
-    }
-  }
+//   for(let i = 0; i < updatedObj.bikes.length; i++){ 
+//     let newObj = updatedObj.bikes[i];
+//     if(newObj.quantity < 3){ 
+//       newObj["note"] = "restock needed"
+//     }
+//   }
 
-  return updatedObj
+//   return updatedObj
 
-}
+// }
 
-let result = updateBikeInventory(bikeInventory)
-console.log(result)
+// let result = updateBikeInventory(bikeInventory)
+// console.log(result)
+
+
+
 
