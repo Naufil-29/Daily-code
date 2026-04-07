@@ -132,5 +132,7 @@ function processStudentGroups(students){
     }
 }
 
-let ans = processStudentGroups(students);
-console.log(ans)
+// let ans = processStudentGroups(students);
+// console.log(ans)
+
+
