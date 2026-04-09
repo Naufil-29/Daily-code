@@ -189,6 +189,20 @@ function alalyzeFriendGroups(group1, group2){
 // Add a case printReaders inside the switch statement that will add the current readers inside the libraryData to the results array
 // Add a default case that adds an “Invalid action!” to the results array
 // Initial library data
+
+
+// Add the case "addBook". This case should:
+// Create a new book object using the currentData parameter which holds the following properties:
+// title (string)
+// author (string)
+// year (string)
+// genre (string)
+// Generate an id (use libraryData.books.length + 1)
+// Set default values for: isRead, rating, borrowed, borrowedBy, borrowDate (like in the initial data)
+// Add the new book to libraryData.books array
+// Add the string Book added successfully! to the results array
+
+
 let libraryData = {
     books: [
         {
@@ -212,16 +226,19 @@ let libraryData = {
     ]
 }
 
-const actions = ["printBooks", "printReaders", "someAction"]
-const data = [null, null, null]
+const actions = ["printBooks", "printReaders", "someAction", "addBook"]
+const data = [
+    {title: "Harry Potter and the Philosopher's Stone", author: "J.K. Rowling", year: 1997, genre: "Fantasy"},null]
 
 
 function manageLibrary(actions, data) {
     let results = [];
+    let dataIndex = 0;
 
     for (let i = 0; i < actions.length; i++) {
         const currentAction = actions[i];
         const currentData = data[i];
+
         
         switch (currentAction) {
             case 'printBooks':
@@ -229,6 +246,21 @@ function manageLibrary(actions, data) {
                 break
             case 'printReaders':
                 results.push(libraryData.readers);
+                break
+            case 'addBook':
+                let currentData = data[dataIndex++]
+                if(!currentData){
+                    break;
+                }
+                let newObj = { ...currentData };
+                newObj.id = libraryData.books.length + 1;
+                newObj.isRead = false;
+                newObj.rating = 0;
+                newObj.borrowed = false;
+                newObj.borrowedBy = "";
+                newObj.borrowDate = "";
+
+                libraryData.books.push(newObj)
                 break
             default:
                 results.push("Invalid action!");
