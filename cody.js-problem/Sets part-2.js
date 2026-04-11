@@ -203,6 +203,17 @@ function alalyzeFriendGroups(group1, group2){
 // Add the string Book added successfully! to the results array
 
 
+// Create a new case searchByTitle in your switch statement. This action should search for books by their title.
+// For the searchByTitle case:
+// The currentData parameter is a string to search for
+// Create an empty array searchResults to store the search results
+// Loop through all books in the library
+// For each book, check if its title includes the search string
+// The search should be case-insensitive (convert both strings to lowercase before comparing)
+// If a match is found, add the book to the searchResults array
+// Add the searchResults array to the main results array
+
+
 let libraryData = {
     books: [
         {
@@ -225,22 +236,54 @@ let libraryData = {
         }
     ]
 }
+// , {title: "The Ring of Power", author: "Anonymous", year: 2010, genre: "History"}, {title: "Ring World", author: "Larry Niven", year: 1970, genre: "Science Fiction"}, "ring"]
 
-const actions = ["printBooks", "printReaders", "someAction", "addBook"]
+const actions = ["addBook", "addBook", "addBook", "markAsRead"]
 const data = [
-    {title: "Harry Potter and the Philosopher's Stone", author: "J.K. Rowling", year: 1997, genre: "Fantasy"},null]
+    {
+        title: "Harry Potter and the Sorcerer's Stone", 
+        author: "J.K. Rowling", 
+        year: 1997, 
+        genre: "Fantasy"
+    }, 
+    {
+        title: "Harry Potter and the Chamber of Secrets", 
+        author: "J.K. Rowling", 
+        year: 1998, 
+        genre: "Fiction"
+    }, 
+    { 
+        bookId: 2,
+        rating: 1
+    },
+    ]
 
 
 function manageLibrary(actions, data) {
     let results = [];
     let dataIndex = 0;
+    let searchQuery = "";
+    let filteredQuery = "";
+    let searchResults = [];
+    let filteredResults = [];
+    let ratingObj ={}
 
     for (let i = 0; i < actions.length; i++) {
         const currentAction = actions[i];
         const currentData = data[i];
 
+        if(typeof currentData === "string"){ 
+            searchQuery = currentData;
+            filteredQuery = currentData;
+        }
+
+        if(currentData && typeof currentData === "object" && Object.hasOwn(currentData, "rating")){ 
+            ratingObj = currentData;
+            console.log(ratingObj)
+        }
         
-        switch (currentAction) {
+
+         switch (currentAction) {
             case 'printBooks':
                 results.push(libraryData.books);
                 break
@@ -252,16 +295,76 @@ function manageLibrary(actions, data) {
                 if(!currentData){
                     break;
                 }
-                let newObj = { ...currentData };
-                newObj.id = libraryData.books.length + 1;
-                newObj.isRead = false;
-                newObj.rating = 0;
-                newObj.borrowed = false;
-                newObj.borrowedBy = "";
-                newObj.borrowDate = "";
-
+                let newObj = { 
+                    id: libraryData.books.length + 1,
+                    ...currentData,
+                    isRead: false,
+                    rating: 0,
+                    borrowed: false,
+                    borrowedBy: "",
+                    borrowDate: ""
+                }
+                
+                results.push("Book added successfully!")
                 libraryData.books.push(newObj)
                 break
+            case 'searchByTitle':
+                libraryData.books.forEach((b) => { 
+                    let title = b.title.toLowerCase()
+                    console.log('title: ', title)
+                    if(title.includes(searchQuery.toLowerCase())){ 
+                        searchResults.push(b)
+                    }
+                });
+                results.push(searchResults)
+                break
+            case 'filterByGenre':
+                libraryData.books.forEach((b) => { 
+                    let genre = b.genre;
+                    if(genre === filteredQuery){ 
+                        filteredResults.push(b)
+                    }
+                });
+                results.push(filteredResults)
+                break
+            case "markAsRead":
+                // Mark a book as read and add rating
+                let flag = false;
+                if (!(ratingObj.rating >= 1 && ratingObj.rating <= 5)) {
+                    results.push("Invalid rating! Please rate between 1 and 5");
+                } else {
+                    for (let i = 0; i < libraryData.books.length; i++) {
+                        if(libraryData.books[i].id === ratingObj.bookId) {
+                            libraryData.books[i].isRead = true;
+                            libraryData.books[i].rating = ratingObj.rating;
+                            results.push("Book marked as read!");
+                            flag = true;
+                        }
+                    }
+                    if (flag === false) {
+                        results.push("Book not found!");
+                    }
+                }
+                break;
+            // case 'markAsRead':
+            //     let found = false;
+            //     libraryData.books.forEach((b) => { 
+            //         let id = b.id;
+            //         if(id === ratingObj.bookId && ratingObj.rating > 0 && ratingObj.rating <= 5){ 
+            //             found = true
+            //             b.isRead = true;
+            //             b.rating = ratingObj.rating
+                        
+            //         }
+            //         else if(id === ratingObj.bookId && ratingObj.rating < 0 || ratingObj.rating > 5){
+            //             found = true; 
+            //             results.push("Invalid rating! Please rate between 1 and 5")
+            //         }
+            //     })
+            //     if(!found){ 
+            //         results.push("Book not found!")
+            //     }
+            //     break
             default:
                 results.push("Invalid action!");
                 break
@@ -272,3 +375,8 @@ function manageLibrary(actions, data) {
 
 let ans = manageLibrary(actions, data) ;
 console.log(ans)
+
+
+
+
+
