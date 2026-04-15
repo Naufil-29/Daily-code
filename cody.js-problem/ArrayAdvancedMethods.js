@@ -139,4 +139,56 @@ function calculateGroceryTotal(items){
 // }
 }
 
-console.log(calculateGroceryTotal(items))
+// console.log(calculateGroceryTotal(items))
+
+
+
+// Create a function called processFruits that takes an array of fruit objects. Each fruit object has properties name (string) and quantity (number).
+// The function should use chained array methods to:
+// Filter out fruits with quantity of 0
+// Transform each fruit name to uppercase
+// Create a string that lists all fruits with their quantities like "APPLE: 5, BANANA: 3"
+
+const fruits = [{name: "", quantity: 5}, {name: "banana", quantity: 3}, {name: "orange", quantity: 2}, {name: "banana", quantity: 5}]
+
+function processFruits(fruits){ 
+    let string;
+
+    let result = fruits
+    .filter((e) => { 
+        if(e.quantity > 0){ 
+            return e
+        }
+    })
+    .map((e) => { 
+        let name = e.name.toUpperCase();
+        e[name] = name;
+        
+       return string = name + ": " + e.quantity;
+    })
+
+    return result.join(", ").toString();
+
+}
+
+// console.log(processFruits(fruits));
+
+
+// Create a function named sortByLength that takes an array of strings and returns 
+// a new array with the same strings sorted by their length in ascending order. 
+// If two strings have the same length, they should be sorted alphabetically.
+
+const arr = ["cat", "dog", "elephant", "bird"]
+
+function sortByLength(arr){ 
+    return arr.sort((a, b) => { 
+        if(a.length === b.length){ 
+            return a.localeCompare(b);
+        }
+
+        return a.length - b.length;
+
+    })
+}
+
+console.log(sortByLength(arr))
