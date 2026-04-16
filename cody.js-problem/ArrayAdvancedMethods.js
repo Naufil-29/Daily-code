@@ -191,4 +191,52 @@ function sortByLength(arr){
     })
 }
 
-console.log(sortByLength(arr))
+// console.log(sortByLength(arr));
+
+
+
+// Create a function called chainMaster that takes an array of numbers as an argument. The function should use chained array methods to perform the following operations:
+// Keep only numbers that are divisible by 3
+// Multiply each remaining number by 2
+// Sort the resulting array in descending order
+// Return an object with the following properties:
+// transformedArray: The final array after all operations
+// sum: The sum of all numbers in the final array
+// average: The average of all numbers in the final array, rounded to two decimal places
+// Use appropriate array methods (filter, map, sort, reduce) in your solution.
+
+const array = [7, 11, 13, 17, 19, 23];
+
+function chainMaster(arr){ 
+
+let transformedArray = [];
+let sum = 0
+
+    if(arr.length == 0){ 
+        return { 
+        transformedArray: [],
+        sum: 0,
+        average: NaN
+        }
+    }
+    transformedArray = arr.filter(e => e % 3 === 0)
+    .map(e => e * 2)
+    .sort((a, b) =>  b - a);
+
+    if(transformedArray.length == 0){ 
+        sum = 0;
+    }
+    else{
+        sum = transformedArray.reduce((acc, e) => acc + e);
+    }
+
+    let average = sum / transformedArray.length;
+
+    return { 
+        transformedArray: transformedArray,
+        sum: sum,
+        average: average
+    }
+}
+
+// console.log(chainMaster(array));
