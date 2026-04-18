@@ -29,7 +29,8 @@ const festivalData = {
 		secondGenre: undefined,
 		avgRating: 0,
 		available: true
-	}],
+	},
+    ],
 	venues: [{
 		id: 1,
 		name: "Main Theater",
@@ -45,12 +46,12 @@ const festivalData = {
 	}],
 	tickets: new Set()
 };
-
-const data = [{ movieId: 1, venueId: 1, date: "2023-12-25", time: "18:35:00" }, {}]
-
-const actions = ["addScreening", "listScreenings"]
+// [ { screeningId: 2, quantity: 3 }, { screeningId: 2 }, {}, {}]
 
 
+
+const data = [{ movieId: 1, venueId: 1, date: "2023-12-25", time: "19:00:00" }, {screeningId: 2, quantity: 5}, { screeningId: 2 }, {}]
+const actions = [ "addScreening", "buyTicket", "cancelScreening"];
 
 function manageFestival(actions, data) {
     let results = [];
@@ -132,6 +133,74 @@ function manageFestival(actions, data) {
 
                 break;
 
+            case "buyTicket":
+
+                const screening = festivalData.screenings.find(s => s.id === currentData.screeningId);
+
+                if(!screening){ 
+                    results.push("Screening not found!");
+                    break;
+                }
+
+                if(currentData.quantity > screening.availableSeats){ 
+                    results.push("Not enough seats available!");
+                    break;
+                }
+
+                screening.availableSeats -= currentData.quantity;
+
+                let currentQuantity = screening.availableSeats + currentData.quantity;
+
+                for(let i = 0; i < currentData.quantity; i++){ 
+                    let newTicket = `${currentData.screeningId}-${currentQuantity}`;
+                    festivalData.tickets.add(newTicket);
+                    currentQuantity--;
+                };
+
+                results.push("Tickets purchased successfully!");
+                break;
+
+                case "rateMovie":
+                    const movieExist = festivalData.movies.find(m => m.id === currentData.movieId);
+
+                    if(!movieExist){ 
+                        results.push("Movie not found!");
+                        break;
+                    };
+
+                    if(currentData.avgRating < 0 || currentData.avgRating > 5){ 
+                        results.push("Invalid rating! Must be between 1 and 5");
+                        break;
+                    }
+
+                    movieExist.avgRating = currentData.avgRating;
+                    results.push("Rating added successfully!");
+                    break;
+
+                case "cancelScreening":
+                const screeningIndex = festivalData.screenings.findIndex(s => 
+                    s.id === currentData.screeningId
+                );
+                
+                if (screeningIndex === -1) {
+                    results.push("Screening not found!");
+                    break;
+                }
+                
+                // Remove screening
+                festivalData.screenings.splice(screeningIndex, 1);
+                
+                // Remove related tickets
+                const ticketsToRemove = Array.from(festivalData.tickets)
+                    .filter(ticket => ticket.startsWith(`${currentData.screeningId}-`));
+                    
+                ticketsToRemove.forEach(ticket => {
+                    festivalData.tickets.delete(ticket);
+                });
+                
+                results.push("Screening cancelled successfully!");
+                break;
+
             default:
                 results.push("Invalid action!");
                 break
@@ -142,3 +211,7 @@ function manageFestival(actions, data) {
 }
 
 console.log(manageFestival(actions, data))
+
+
+
+            
