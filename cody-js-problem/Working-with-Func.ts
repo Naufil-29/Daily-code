@@ -217,3 +217,172 @@ calculateShipping(3, 50, true);
 
 
 
+// Create a function named sumAll that uses rest parameters to accept any number of numeric arguments and returns their sum as a number. The function should have an explicit return type annotation.
+
+// Create another function named findMaximum that uses rest parameters to accept any number of numeric arguments and returns the largest value among them as a number. The function should have an explicit return type annotation.
+
+// Create a third function named concatenateStrings that takes a required separator parameter of type string, followed by rest parameters that accept any number of string arguments. The function should return all the string arguments joined together with the separator between them. The function should have an explicit return type annotation of string.
+
+// Test your functions by calling them with the following values and printing the results:
+
+// Call sumAll with 5, 10, and 15
+// Call sumAll with 1, 2, 3, 4, and 5
+// Call findMaximum with 8, 3, 12, and 7
+// Call findMaximum with 25 and 18
+// Call concatenateStrings with "-" as separator and "apple", "banana", "cherry"
+// Call concatenateStrings with " | " as separator and "red", "green", "blue", "yellow"
+// Print each result on a separate line in the order specified above.
+
+// Create the sumAll function with rest parameters
+function sumAll(...numbers: number[]): number { 
+    let sum = 0;
+    for(const num of numbers){ 
+        sum += num;
+    }
+    return sum;
+}
+
+
+// Create the findMaximum function with rest parameters
+function findMaximum(...numbers: number[]): number{ 
+    let largest = 0;
+    for(const num of numbers){ 
+        if(num > largest){ 
+            largest = num;
+        }
+    }
+    return largest;
+}
+
+
+// Create the concatenateStrings function with separator and rest parameters
+function concatenateStrings(separator: string, ...alphs: string[]): string { 
+return alphs.join(separator);
+}
+
+
+// Test the functions and print results
+console.log(sumAll(5, 10, 15));
+console.log(sumAll(1, 2, 3, 4, 5));
+console.log(findMaximum(8, 3, 12, 7));
+console.log(findMaximum(25, 18));
+console.log(concatenateStrings("-", "apple", "banana", "cherry"));
+console.log(concatenateStrings(" | ", "red", "green", "blue", "yellow"));
+
+
+
+
+// Create a type alias named StringProcessor for a function that takes a single string parameter and returns a string.
+
+// Create a type alias named NumberCalculator for a function that takes two number parameters and returns a number.
+
+// Create a type alias named BooleanChecker for a function that takes a string parameter and returns a boolean.
+
+// Now implement the following functions that conform to these type aliases:
+
+// Create a function named toUpperCase of type StringProcessor that converts the input string to uppercase
+// Create a function named addPrefix of type StringProcessor that adds the prefix "Processed: " to the input string
+// Create a function named divide of type NumberCalculator that divides the first number by the second number
+// Create a function named power of type NumberCalculator that raises the first number to the power of the second number (use Math.pow)
+// Create a function named isEmpty of type BooleanChecker that returns true if the string has length 0, otherwise false
+// Create a function named startsWithA of type BooleanChecker that returns true if the string starts with the letter "A" (case-sensitive), otherwise false
+// Test your functions by calling them with the following values and printing the results:
+
+
+// TODO: Create type aliases here
+// StringProcessor, NumberCalculator, BooleanChecker
+type StringProcessor = (text: string) => string;
+type NumberCalculator = (num: number, num2: number) => number;
+type BooleanChecker = (text: string) => boolean;
+
+// toUpperCase, addPrefix, divide, power, isEmpty, startsWithA
+const toUpperCase: StringProcessor = (input) => { 
+    return input.toUpperCase();
+};
+const addPrefix: StringProcessor = (input) => { 
+    let output = `Processed: ${input}`
+    return output;
+};
+const divide: NumberCalculator = (a, b) => { 
+    return a / b;
+};
+const power: NumberCalculator = (a, b) => { 
+    return Math.pow(a, b);
+};
+const isEmpty: BooleanChecker = (input) => { 
+    if(input.length === 0){ 
+        return true;
+    }
+    return false;
+};
+const startsWithA: BooleanChecker = (input) => { 
+    if(input.startsWith("A")){ 
+        return true;
+    }
+    return false;
+};
+
+console.log(toUpperCase("hello world"));
+console.log(addPrefix("data"));
+console.log(divide(20, 4));
+console.log(power(3, 4));
+console.log(isEmpty(""));
+console.log(startsWithA("Apple"));
+
+
+
+
+
+// Create a function named formatName that takes three parameters: firstName of type string (required), lastName of type string (required), and middleName of type string (optional). The function should return a formatted full name as a string with an explicit return type annotation.
+
+// When all three parameters are provided, the function should return the name in the format: "[firstName] [middleName] [lastName]"
+
+// When only the first and last names are provided, the function should return the name in the format: "[firstName] [lastName]"
+
+// The following inputs will be provided:
+
+// First input: firstName as a string
+// Second input: lastName as a string
+// Third input: middleName as a string (this may be an empty string "" to indicate no middle name)
+// Your function should treat an empty string for middleName the same as if no middle name was provided.
+
+// Read the three inputs, call your formatName function with the appropriate parameters, and print the result.
+
+// Note: If the third input is an empty string, call the function with only the first two parameters (do not pass the empty string as the middle name).
+
+
+
+// import * as fs from "fs";
+
+// // Read inputs
+// const stdinBuffer: Buffer = fs.readFileSync(0);
+// const inputs: string[] = stdinBuffer.toString().trim().split('\n');
+// const firstName: string = inputs[0];
+// const lastName: string = inputs[1];
+// const middleName: string = inputs[2];
+
+// TODO: Write your code here
+// Create the formatName function with proper type annotations
+function formatName(firstName: string, lastName: string, middleName?: string): string{ 
+    let fullName = ""
+    if(!middleName || middleName.length === 0){ 
+        fullName = `${firstName} ${lastName}`;
+        return fullName;
+    }
+    fullName = `${firstName} ${middleName} ${lastName}`;
+    return fullName;
+};
+
+
+
+
+// Call the function and output the result
+
+// if(!middleName){ 
+//  const result = formatName(firstName, lastName);
+//  console.log(result);
+// }
+// else{
+// const result = formatName(firstName, lastName, middleName)
+// console.log(result);
+// }
