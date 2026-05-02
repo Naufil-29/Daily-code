@@ -386,3 +386,87 @@ function formatName(firstName: string, lastName: string, middleName?: string): s
 // const result = formatName(firstName, lastName, middleName)
 // console.log(result);
 // }
+
+
+// Create a type alias named UserID for a union type that can be either a string or a number.
+
+// Create a type alias named Priority for a union type that can be either a string or a boolean.
+
+// Create a type alias named Status for the string type.
+
+// Now declare the following variables using your type aliases:
+
+// Declare a variable named currentUser of type UserID and assign it the string value "admin123"
+// Declare a variable named guestUser of type UserID and assign it the number value 42
+// Declare a variable named taskPriority of type Priority and assign it the string value "high"
+// Declare a variable named isUrgent of type Priority and assign it the boolean value true
+// Declare a variable named orderStatus of type Status and assign it the string value "pending"
+// Print each variable's value on a separate line in the order they were declared above.
+
+type userID = string | number;
+type Priority = string | boolean;
+type Status = string;
+// Then declare the variables and assign the specified values
+const currentUser: userID = "admin123";
+const guestUser: userID = 42;
+const taskPriority: Priority = "high";
+const isUrgent: Priority = true;
+const orderStatus: Status = "pending";
+
+console.log(currentUser)
+console.log(guestUser)
+console.log(taskPriority)
+console.log(isUrgent)
+console.log(orderStatus)
+
+
+// Create a function named printId that accepts a parameter called id of type string | number and prints it to the console. The function should have an explicit return type of void.
+
+// Create another function named processValue that accepts a parameter called data of type boolean | string and returns it unchanged. The function should have an explicit return type of boolean | string.
+
+// Create a third function named formatOutput that accepts a parameter called input of type number | string and returns a formatted string. If the input is a number, return "Number: [input]". If the input is a string, return "Text: [input]". The function should have an explicit return type of string.
+
+// The following inputs will be provided:
+
+// First input: a value that can be either a string or number (for printId)
+// Second input: a value that can be either a boolean or string (for processValue)
+// Third input: a value that can be either a number or string (for formatOutput)
+// Read the three inputs, call each function with the appropriate input, and handle the outputs as follows:
+
+// Call printId with the first input (this will print directly)
+// Call processValue with the second input and print the returned value
+// Call formatOutput with the third input and print the returned value
+// Note: The first input will be provided as a string, but if it represents a number (like "123"), convert it to a number before passing it to printId. The second input will be provided as a string, but if it's "true" or "false", convert it to the corresponding boolean value. The third input will be provided as a string, but if it represents a number, convert it to a number.
+
+
+const stdinBuffer: Buffer = fs.readFileSync(0);
+const inputs: string[] = stdinBuffer.toString().trim().split('\n');
+const input1 = inputs[0];
+const input2 = inputs[1];
+const input3 = inputs[2];
+
+// Convert inputs to appropriate types
+const firstInput = isNaN(Number(input1)) ? input1 : Number(input1);
+const secondInput = input2 === "true" ? true : input2 === "false" ? false : input2;
+const thirdInput = isNaN(Number(input3)) ? input3 : Number(input3);
+
+// TODO: Write your code here
+// Create the three functions: printId, processValue, and formatOutput
+function printId(id: string | number): void{ 
+    console.log(id);
+};
+function processValue(data: string | boolean): string|boolean{ 
+    return data;
+};
+function formatOutput(input: number | string): string{ 
+   if(typeof input === "number"){ 
+        return `Number: ${input}`
+   }
+   return `Text: ${input}`
+};
+
+
+printId(firstInput);
+console.log(processValue(secondInput));
+console.log(formatOutput(thirdInput));
+
