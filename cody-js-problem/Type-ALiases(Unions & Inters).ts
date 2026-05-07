@@ -588,5 +588,199 @@ console.log(getVehicleInfo(myCar));
 console.log(myDog.isVaccinated);
 
 
+// Create an interface named Book with the following properties:
+
+// title of type string (required)
+// isbn of type string (readonly)
+// subtitle of type string (optional)
+// pages of type number (required)
+// publishedYear of type number (readonly)
+// genre of type string (optional)
+// Create an interface named Magazine with the following properties:
+
+// name of type string (required)
+// issueNumber of type number (readonly)
+// topic of type string (optional)
+// monthlySubscription of type boolean (required)
+// Using your interfaces, create the following variables:
+
+// Create a variable named novel of type Book with title "1984", isbn "978-0-452-28423-4", pages 328, and publishedYear 1949
+// Create a variable named cookbook of type Book with title "The Joy of Cooking", isbn "978-0-7432-4626-2", subtitle "All About Baking", pages 1132, publishedYear 2006, and genre "Cooking"
+// Create a variable named techMag of type Magazine with name "Tech Today", issueNumber 45, and monthlySubscription true
+// Create a variable named scienceMag of type Magazine with name "Science Weekly", issueNumber 12, topic "Climate Change", and monthlySubscription false
+// Create a function named getBookDetails that accepts a parameter of type Book and returns a string. The function should return the book's title and pages in the format "[title] - [pages] pages".
+
+// Create a function named getMagazineInfo that accepts a parameter of type Magazine and returns a string. The function should return the magazine's name and issue number in the format "[name] Issue #[issueNumber]".
+
+// Print the following outputs on separate lines:
+
+// Call getBookDetails with novel and print the result
+// Call getBookDetails with cookbook and print the result
+// Call getMagazineInfo with techMag and print the result
+// Call getMagazineInfo with scienceMag and print the result
+// Print the ISBN of novel
+// Print the subscription status of techMag (the monthlySubscription property)
+
+
+interface Book { 
+    title: string,
+    readonly isbn: string,
+    subtitle?: string,
+    pages: number,
+    readonly publishedYear: number,
+    genre?: string
+};
+
+// Create the Magazine interface
+interface Magezine { 
+    name: string,
+    readonly issueNumber: number,
+    topic?: string,
+    monthlySubscirption: boolean
+};
+
+// Create the variables using your interfaces
+const novel: Book = { 
+    title: "1984",
+    isbn: "978-0-452-28423-4",
+    pages: 328,
+    publishedYear: 1949
+};
+
+const cookbook: Book = { 
+    title: "The Joy of Cooking",
+    isbn: "978-0-7432-4626-2",
+    subtitle: "All About Baking",
+    pages: 1132,
+    publishedYear: 2006,
+    genre: "Cooking"
+};
+
+const techMag: Magezine = { 
+    name: "Tech Today",
+    issueNumber: 45,
+    monthlySubscirption: true
+};
+
+const scienceMag: Magezine = { 
+    name: "Science Weekly",
+    issueNumber: 12,
+    topic: "Climate Change",
+    monthlySubscirption: false
+};
+
+// Create the getBookDetails function
+function getBookDetails(data: Book): string { 
+    return `${data.title} - ${data.pages} pages`
+};
+
+// Create the getMagazineInfo function
+function getMagezineInfo(data: Magezine):string { 
+   return `${data.name} Issue #${data.issueNumber}`
+}
+
+// Print the required outputs
+console.log(getBookDetails(novel));
+console.log(getBookDetails(cookbook));
+console.log(getMagezineInfo(techMag));
+console.log(getMagezineInfo(scienceMag));
+console.log(novel.isbn);
+console.log(techMag.monthlySubscirption);
+
+
+
+// Create a base interface named Employee with the following properties:
+
+// id of type number
+// name of type string
+// department of type string
+// Create an interface named Manager that extends Employee and adds the following properties:
+
+// teamSize of type number
+// budget of type number
+// Create a type alias named Contact with the following properties:
+
+// email of type string
+// phone of type string
+// Create a type alias named Developer using intersection types that combines Employee and Contact, and adds the following properties:
+
+// programmingLanguages of type string[]
+// yearsExperience of type number
+// Using your interfaces and types, create the following variables:
+
+// Create a variable named teamLead of type Manager with id 101, name "Alice Johnson", department "Engineering", teamSize 8, and budget 250000
+// Create a variable named softwareDev of type Developer with id 102, name "Bob Smith", department "Engineering", email "bob.smith@company.com", phone "555-0123", programmingLanguages ["TypeScript", "Python", "Java"], and yearsExperience 5
+// Create a function named getManagerSummary that accepts a parameter of type Manager and returns a string in the format "[name] manages [teamSize] people with a budget of $[budget]".
+
+// Create a function named getDeveloperSkills that accepts a parameter of type Developer and returns a string in the format "[name] knows [programmingLanguages joined with ', '] ([yearsExperience] years experience)".
+
+// Print the following outputs on separate lines:
+
+// Call getManagerSummary with teamLead and print the result
+// Call getDeveloperSkills with softwareDev and print the result
+// Print the department of teamLead
+// Print the email of softwareDev
+
+
+interface Employee { 
+    id: number,
+    name: string,
+    department: string
+};
+
+// Create the Manager interface that extends Employee
+interface Manager extends Employee { 
+    teamSize: number,
+    budget: number
+};
+
+// Create the Contact type alias
+type Contact = { 
+    email: string,
+    phone: string
+};
+
+// Create the Developer type alias using intersection types
+type Developer = Employee & Contact & { 
+    programmingLanguages: string[],
+    yearsExperience: number
+};
+
+// Create the teamLead variable of type Manager
+const teamLead: Manager = { 
+    id: 101,
+    name: "Alice Johnson",
+    department: "Engineering",
+    teamSize: 8,
+    budget: 250000
+}
+
+// Create the softwareDev variable of type Developer
+const softwareDev: Developer = { 
+    id: 102,
+    name: "Bob Smith",
+    department: "Engineering",
+    email: "bob.smith@company.com",
+    phone: "555-0123",
+    programmingLanguages: ["TypeScript", " Python", " Java"],
+    yearsExperience: 5
+};
+
+// Create the getManagerSummary function
+function getManagerSummary(data: Manager):string { 
+    return `${data.name} manages ${data.teamSize} people with a budget of $${data.budget}`
+};
+
+// Create the getDeveloperSkills function
+function getDeveloperSkills(data: Developer):string { 
+    return `${data.name} knows ${data.programmingLanguages} (${data.yearsExperience} years experience)`
+}
+
+// Print the required outputs
+console.log(getManagerSummary(teamLead));
+console.log(getDeveloperSkills(softwareDev));
+console.log(teamLead.department);
+console.log(softwareDev.email);
+
 
 
