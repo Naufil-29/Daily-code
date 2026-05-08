@@ -784,3 +784,288 @@ console.log(softwareDev.email);
 
 
 
+// Create an interface named Calculator with the following properties and methods:
+
+// brand of type string
+// model of type string
+// isScientific of type boolean
+// add method that takes two number parameters and returns a number
+// getInfo method that takes no parameters and returns a string
+// Create an interface named BankAccount with the following properties and methods:
+
+// accountNumber of type string
+// balance of type number
+// isActive of type boolean
+// deposit method that takes a number parameter and returns void
+// getBalance method that takes no parameters and returns a number
+// Using your interfaces, create the following variables:
+
+// Create a variable named myCalculator of type Calculator with brand "Casio", model "FX-991EX", isScientific true, an add method that returns the sum of its two parameters, and a getInfo method that returns "[brand] [model]"
+// Create a variable named savingsAccount of type BankAccount with accountNumber "SAV-12345", balance 1500, isActive true, a deposit method that adds the parameter to the balance, and a getBalance method that returns the current balance
+// Print the following outputs on separate lines:
+
+// Call the getInfo method on myCalculator and print the result
+// Call the add method on myCalculator with arguments 15 and 27, and print the result
+// Call the getBalance method on savingsAccount and print the result
+// Call the deposit method on savingsAccount with argument 250
+// Call the getBalance method on savingsAccount again and print the result
+// Print the isScientific property of myCalculator
+
+
+interface Calculator { 
+    brand: string,
+    model: string,
+    isScientific: boolean,
+    add(a: number, b: number): number,
+    getInfo(): string
+};
+// Create the BankAccount interface with the required properties and methods
+interface BankAccount { 
+    accountNumber: string,
+    balance: number,
+    isActive: boolean,
+    deposit(a:number):void,
+    getBalance():number
+};
+// Create the myCalculator variable of type Calculator
+const myCalculator: Calculator = { 
+    brand: "Casio",
+    model: "FX-991EX",
+    isScientific: true,
+    add(a, b){ 
+        return a + b
+    },
+    getInfo(){ 
+        return `${this.brand} ${this.model}`
+    }
+};
+
+
+
+const savingsAccount: BankAccount = { 
+    accountNumber: "SAV-12345",
+    balance: 1500,
+    isActive: true,
+    deposit(amount){ 
+        let Balance = savingsAccount.balance;
+       return Balance += amount;
+    },
+    getBalance() { 
+        return savingsAccount.balance
+    }
+}
+// Create the savingsAccount variable of type BankAccount
+// Print all the required outputs
+console.log(myCalculator.getInfo());
+console.log(myCalculator.add(15, 27));
+console.log(savingsAccount.getBalance());
+console.log(savingsAccount.deposit(250));
+console.log(myCalculator.isScientific);
+
+
+
+
+// Create an interface named Computer with the following properties and methods:
+
+// id of type number (readonly)
+// brand of type string
+// ramInGB of type number (optional)
+// isLaptop of type boolean
+// boot method that takes no parameters and returns void
+// Create an interface named Server with the following properties and methods:
+
+// hostname of type string (readonly)
+// operatingSystem of type string
+// maxConnections of type number (optional)
+// isOnline of type boolean
+// restart method that takes no parameters and returns void
+// getStatus method that takes no parameters and returns a string
+// Using your interfaces, create the following variables:
+
+// Create a variable named workstation of type Computer with id 1001, brand "Dell", ramInGB 16, isLaptop false, and a boot method that prints "Dell workstation is booting up..."
+// Create a variable named laptop of type Computer with id 1002, brand "MacBook", isLaptop true, and a boot method that prints "MacBook laptop is starting..."
+// Create a variable named webServer of type Server with hostname "web-01", operatingSystem "Ubuntu", maxConnections 1000, isOnline true, a restart method that prints "Restarting web-01 server...", and a getStatus method that returns "web-01 is online"
+// Create a function named checkComputerSpecs that accepts a parameter of type Computer and returns a string. The function should return the computer's brand and type in the format "[brand] [laptop/desktop]" (use "laptop" if isLaptop is true, otherwise use "desktop").
+
+// Create a function named getServerInfo that accepts a parameter of type Server and returns a string in the format "[hostname] runs [operatingSystem]".
+
+// Print the following outputs on separate lines:
+
+// Call the boot method on workstation
+// Call the boot method on laptop
+// Call checkComputerSpecs with workstation and print the result
+// Call checkComputerSpecs with laptop and print the result
+// Call the getStatus method on webServer and print the result
+// Call getServerInfo with webServer and print the result
+// Print the id of workstation
+// Call the restart method on webServer
+
+
+
+interface Computer { 
+    readonly id: number,
+    brand: string,
+    ramInGB?: number,
+    isLaptop: boolean,
+    boot(): void
+};
+// Create the Server interface with the required properties and methods
+interface Server { 
+    readonly hostname: string,
+    operatingSystem: string,
+    maxConnection?: number,
+    isOnline: boolean,
+    restart(): void,
+    getStatus(): string
+};
+// Create the workstation, laptop, and webServer variables
+const workstation: Computer = { 
+    id: 1001,
+    brand: "Dell",
+    ramInGB: 16,
+    isLaptop: false,
+    boot() { 
+        return `Dell workstation is booting up...`
+    }
+};
+
+const laptop: Computer = { 
+    id: 1002,
+    brand: "MacBook",
+    isLaptop: true,
+    boot(){ 
+      return "MacBook laptop is starting..."
+    }
+};
+
+const webServer: Server = { 
+    hostname: "web-01",
+    operatingSystem: "Ubuntu",
+    maxConnection: 1000,
+    isOnline: true,
+    restart(){ 
+       return `Restarting web-01 server...`
+    },
+    getStatus(){ 
+        return `web-01 is online`
+    }
+};
+
+
+
+// Create an interface named Computer with the following properties and methods:
+
+// id of type number (readonly)
+// brand of type string
+// ramInGB of type number (optional)
+// isLaptop of type boolean
+// boot method that takes no parameters and returns void
+// Create an interface named Server with the following properties and methods:
+
+// hostname of type string (readonly)
+// operatingSystem of type string
+// maxConnections of type number (optional)
+// isOnline of type boolean
+// restart method that takes no parameters and returns void
+// getStatus method that takes no parameters and returns a string
+// Using your interfaces, create the following variables:
+
+// Create a variable named workstation of type Computer with id 1001, brand "Dell", ramInGB 16, isLaptop false, and a boot method that prints "Dell workstation is booting up..."
+// Create a variable named laptop of type Computer with id 1002, brand "MacBook", isLaptop true, and a boot method that prints "MacBook laptop is starting..."
+// Create a variable named webServer of type Server with hostname "web-01", operatingSystem "Ubuntu", maxConnections 1000, isOnline true, a restart method that prints "Restarting web-01 server...", and a getStatus method that returns "web-01 is online"
+// Create a function named checkComputerSpecs that accepts a parameter of type Computer and returns a string. The function should return the computer's brand and type in the format "[brand] [laptop/desktop]" (use "laptop" if isLaptop is true, otherwise use "desktop").
+
+// Create a function named getServerInfo that accepts a parameter of type Server and returns a string in the format "[hostname] runs [operatingSystem]".
+
+// Print the following outputs on separate lines:
+
+// Call the boot method on workstation
+// Call the boot method on laptop
+// Call checkComputerSpecs with workstation and print the result
+// Call checkComputerSpecs with laptop and print the result
+// Call the getStatus method on webServer and print the result
+// Call getServerInfo with webServer and print the result
+// Print the id of workstation
+// Call the restart method on webServer
+
+// Create the checkComputerSpecs and getServerInfo functions
+function checkComputerSpecs(data: Computer): string{ 
+    if(data.isLaptop === true){
+      return `${data.brand} laptop`
+    }
+    return `${data.brand} desktop`
+};
+
+function getServerInfo(data: Server): string { 
+    return `${data.hostname} runs ${data.operatingSystem}`
+};
+
+// Print all the required outputs
+console.log(workstation.boot());
+console.log(laptop.boot());
+console.log(checkComputerSpecs(workstation));
+console.log(checkComputerSpecs(laptop));
+console.log(webServer.getStatus());
+console.log(getServerInfo(webServer));
+console.log(workstation.id);
+console.log(webServer.restart());
+
+
+
+// Create an interface named Task with the following properties:
+
+// id of type number
+// title of type string
+// status that can only be one of these literal values: 'todo', 'in-progress', or 'done'
+// Using your Task interface, create the following variables:
+
+// Create a variable named firstTask of type Task with id 1, title "Learn TypeScript interfaces", and status 'todo'
+// Create a variable named secondTask of type Task with id 2, title "Build task management app", and status 'in-progress'
+// Create a variable named thirdTask of type Task with id 3, title "Write unit tests", and status 'done'
+// Create a function named getTaskInfo that accepts a parameter of type Task and returns a string in the format "Task [id]: [title] - [status]".
+
+// Print the following outputs on separate lines:
+
+// Call getTaskInfo with firstTask and print the result
+// Call getTaskInfo with secondTask and print the result
+// Call getTaskInfo with thirdTask and print the result
+// Print the status of firstTask
+// Print the title of secondTask
+
+
+interface Task { 
+    id: number,
+    title: string,
+    status: 'todo' | 'in-progress' | 'done'
+}
+
+
+// Create the task variables
+const firstTask: Task = { 
+    id: 1,
+    title: "Learn TypeScript interfaces",
+    status: 'todo'
+};
+const secondTask: Task = { 
+    id: 2,
+    title: "Build task managment app",
+    status: 'in-progress'
+};
+const thirdTask: Task = { 
+    id: 3,
+    title: "Write unit tests",
+    status: 'done'
+};
+
+
+// Create the getTaskInfo function
+function getTaskInfo(data: Task):string { 
+    return `Task ${data.id}: ${data.title} - ${data.status}`
+}
+
+// Print the required outputs
+console.log(getTaskInfo(firstTask));
+console.log(getTaskInfo(secondTask));
+console.log(getTaskInfo(thirdTask));
+console.log(firstTask.status);
+console.log(secondTask.title);
