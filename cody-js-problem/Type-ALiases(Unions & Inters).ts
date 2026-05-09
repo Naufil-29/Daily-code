@@ -1048,7 +1048,7 @@ const firstTask: Task = {
 };
 const secondTask: Task = { 
     id: 2,
-    title: "Build task managment app",
+    title: "Build task management app",
     status: 'in-progress'
 };
 const thirdTask: Task = { 
@@ -1061,11 +1061,25 @@ const thirdTask: Task = {
 // Create the getTaskInfo function
 function getTaskInfo(data: Task):string { 
     return `Task ${data.id}: ${data.title} - ${data.status}`
-}
+};
+
+function addTask(taskList: Task[], title: string) { 
+    const newTask: Task = { 
+        id: taskList.length + 1,
+        title: title,
+        status: 'todo'
+    };
+    let updatedTaskList = ([...taskList, newTask])
+    return updatedTaskList;
+};
 
 // Print the required outputs
-console.log(getTaskInfo(firstTask));
-console.log(getTaskInfo(secondTask));
-console.log(getTaskInfo(thirdTask));
-console.log(firstTask.status);
-console.log(secondTask.title);
+let initialTasks: Task[] = [ firstTask, secondTask ];
+
+let updatedTasks = addTask(initialTasks, "Review code changes");
+console.log(initialTasks.length);
+console.log(updatedTasks.length);
+let latestTask = updatedTasks[updatedTasks.length - 1]
+console.log(getTaskInfo(latestTask));
+console.log(latestTask.title);
+console.log(latestTask.status)
