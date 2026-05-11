@@ -100,41 +100,41 @@
 // For the second input: if it's "true" or "false", convert it to a boolean; otherwise, convert it to a number
 // Call processData with the processed first input and print the result. Then call formatMessage with the processed second input and print the result.
 
-let firstInput = "dog";
-let secondInput: number | string = "true";
+// let firstInput = "dog";
+// let secondInput: number | string = "true";
 
-// Create the processData function with type guard
-function processData(input: string | string[]): number {
-    let totalLength = 0;
-    if (typeof input === "string") {
-        return input.length;
-    }
-    for (let i = 0; i < input.length; i++) {
-        let length = input[i].length;
-        totalLength += length;
-    }
-    return totalLength;
-}
-// Create the formatMessage function with type guard
-function formatMessage(content: number | boolean): string { 
-    if(typeof content === "number"){ 
-        return `Value: ${content}`;
-    }
-    return `Status: ${content.toString()}`
-}
+// // Create the processData function with type guard
+// function processData(input: string | string[]): number {
+//     let totalLength = 0;
+//     if (typeof input === "string") {
+//         return input.length;
+//     }
+//     for (let i = 0; i < input.length; i++) {
+//         let length = input[i].length;
+//         totalLength += length;
+//     }
+//     return totalLength;
+// }
+// // Create the formatMessage function with type guard
+// function formatMessage(content: number | boolean): string { 
+//     if(typeof content === "number"){ 
+//         return `Value: ${content}`;
+//     }
+//     return `Status: ${content.toString()}`
+// }
 
-if(firstInput.startsWith("[")){ 
-    console.log(processData(JSON.parse(firstInput)));
-}
-else{
-console.log(processData(firstInput));
-}
-if(secondInput === "true" || secondInput === "false"){ 
-    console.log(formatMessage(Boolean(secondInput)))
-}
-else{
-console.log(formatMessage(Number(secondInput)));
-}
+// if(firstInput.startsWith("[")){ 
+//     console.log(processData(JSON.parse(firstInput)));
+// }
+// else{
+// console.log(processData(firstInput));
+// }
+// if(secondInput === "true" || secondInput === "false"){ 
+//     console.log(formatMessage(Boolean(secondInput)))
+// }
+// else{
+// console.log(formatMessage(Number(secondInput)));
+// }
 
 
 // Create a type alias named Direction for the literal types "left" | "right" | "up" | "down".
@@ -160,73 +160,73 @@ console.log(formatMessage(Number(secondInput)));
 // Print each result on a separate line in the order specified above.
 
 
-type Direction = "left" | "right" | "up" | "down";
-type GameState = "menu" | "playing" | "paused" | "gameover";
-type Difficulty = "easy" | "medium" | "hard";
-// Declare variables using your type aliases
-const playerDirection: Direction = "up";
-const currentState : GameState = "playing";
-const selectedDifficuilty: Difficulty = "medium";
-// Create the movePlayer and updateGameState functions
-function movePlayer(direction: Direction):string{ 
-    return `Moving ${direction}`
-};
-function updateGameState(state: GameState):string{ 
-    return `Game state: ${state}`
-};
+// type Direction = "left" | "right" | "up" | "down";
+// type GameState = "menu" | "playing" | "paused" | "gameover";
+// type Difficulty = "easy" | "medium" | "hard";
+// // Declare variables using your type aliases
+// const playerDirection: Direction = "up";
+// const currentState : GameState = "playing";
+// const selectedDifficuilty: Difficulty = "medium";
+// // Create the movePlayer and updateGameState functions
+// function movePlayer(direction: Direction):string{ 
+//     return `Moving ${direction}`
+// };
+// function updateGameState(state: GameState):string{ 
+//     return `Game state: ${state}`
+// };
 
-console.log(movePlayer(playerDirection));
-console.log(updateGameState(currentState));
-console.log(selectedDifficuilty);
-
-
-
-// Create two type aliases: HasName for an object with a name property of type string, and HasAge for an object with an age property of type number.
-
-// Create a third type alias called Person by intersecting HasName and HasAge using the & operator.
-
-// Create another type alias called HasEmail for an object with an email property of type string.
-
-// Create a fourth type alias called Employee by intersecting all three types: HasName, HasAge, and HasEmail.
-
-// Now create the following variables:
-
-// Create a variable named user of type Person with the name "Alice" and age 25
-// Create a variable named worker of type Employee with the name "Bob", age 30, and email "bob@company.com"
-// Create a function named displayPerson that accepts a parameter of type Person and returns a string in the format "Name: [name], Age: [age]".
-
-// Create another function named displayEmployee that accepts a parameter of type Employee and returns a string in the format "Name: [name], Age: [age], Email: [email]".
-
-// Call both functions with the appropriate variables and print the results on separate lines.
+// console.log(movePlayer(playerDirection));
+// console.log(updateGameState(currentState));
+// console.log(selectedDifficuilty);
 
 
-type HasName = { name: string };
-type HasAge = { age: number };
-type HasEmail = { email: string };
-// Create Person and Employee types using intersection
-type person = HasName & HasAge;
-type Employee = HasName & HasAge & HasEmail;
-// Create variables user and worker
-const user: person = { 
-    name: "Alice", 
-    age: 25 
-    };
-const worker: Employee = { 
-    name: "Bob", 
-    age: 30,
-    email: "bob@company.com" 
-    };
-// Create displayPerson and displayEmployee functions
-function displayPerson(user: person){ 
-    return `Name ${user.name}, Age: ${user.age}`
-};
 
-function displayEmployee(worker:Employee){ 
-    return `Name: ${worker.name}, Age: ${worker.age}, Email: ${worker.email}`
-}
+// // Create two type aliases: HasName for an object with a name property of type string, and HasAge for an object with an age property of type number.
 
-console.log(displayPerson(user));
-console.log(displayEmployee(worker));
+// // Create a third type alias called Person by intersecting HasName and HasAge using the & operator.
+
+// // Create another type alias called HasEmail for an object with an email property of type string.
+
+// // Create a fourth type alias called Employee by intersecting all three types: HasName, HasAge, and HasEmail.
+
+// // Now create the following variables:
+
+// // Create a variable named user of type Person with the name "Alice" and age 25
+// // Create a variable named worker of type Employee with the name "Bob", age 30, and email "bob@company.com"
+// // Create a function named displayPerson that accepts a parameter of type Person and returns a string in the format "Name: [name], Age: [age]".
+
+// // Create another function named displayEmployee that accepts a parameter of type Employee and returns a string in the format "Name: [name], Age: [age], Email: [email]".
+
+// // Call both functions with the appropriate variables and print the results on separate lines.
+
+
+// type HasName = { name: string };
+// type HasAge = { age: number };
+// type HasEmail = { email: string };
+// // Create Person and Employee types using intersection
+// type person = HasName & HasAge;
+// type Employee = HasName & HasAge & HasEmail;
+// // Create variables user and worker
+// const user: person = { 
+//     name: "Alice", 
+//     age: 25 
+//     };
+// const worker: Employee = { 
+//     name: "Bob", 
+//     age: 30,
+//     email: "bob@company.com" 
+//     };
+// // Create displayPerson and displayEmployee functions
+// function displayPerson(user: person){ 
+//     return `Name ${user.name}, Age: ${user.age}`
+// };
+
+// function displayEmployee(worker:Employee){ 
+//     return `Name: ${worker.name}, Age: ${worker.age}, Email: ${worker.email}`
+// }
+
+// console.log(displayPerson(user));
+// console.log(displayEmployee(worker));
 
 
 
@@ -258,44 +258,44 @@ console.log(displayEmployee(worker));
 // Print systemAdmin.permissions
 
 
-type Username = string;
-type UserAge = number;
-type ContactMethod = Username | UserAge;
-type UserProfile = { 
-    id: number,
-    displayName: Username,
-    preferredContact: ContactMethod
-};
+// type Username = string;
+// type UserAge = number;
+// type ContactMethod = Username | UserAge;
+// type UserProfile = { 
+//     id: number,
+//     displayName: Username,
+//     preferredContact: ContactMethod
+// };
 
-type AdminProfile = UserProfile & { permissions: string };
+// type AdminProfile = UserProfile & { permissions: string };
 
-// Create variables regularUser and systemAdmin
+// // Create variables regularUser and systemAdmin
 
-const regularUser: UserProfile = { 
-    id: 1,
-    displayName: "john_doe",
-    preferredContact: "john_doe"
-}
+// const regularUser: UserProfile = { 
+//     id: 1,
+//     displayName: "john_doe",
+//     preferredContact: "john_doe"
+// }
 
-const systemAdmin: AdminProfile = { 
-    id: 2,
-    displayName: "admin",
-    preferredContact: 25,
-    permissions: "full_access"
-}
+// const systemAdmin: AdminProfile = { 
+//     id: 2,
+//     displayName: "admin",
+//     preferredContact: 25,
+//     permissions: "full_access"
+// }
 
-// Create getContactInfo function
+// // Create getContactInfo function
 
-function getContactInfo(contact: ContactMethod): string{ 
- if(typeof contact === "string"){ 
-    return `Contact: ${contact}`
- }
- return `Age: ${contact}`
-};
+// function getContactInfo(contact: ContactMethod): string{ 
+//  if(typeof contact === "string"){ 
+//     return `Contact: ${contact}`
+//  }
+//  return `Age: ${contact}`
+// };
 
-console.log(getContactInfo(regularUser.preferredContact));
-console.log(getContactInfo(systemAdmin.preferredContact));
-console.log(systemAdmin.permissions);
+// console.log(getContactInfo(regularUser.preferredContact));
+// console.log(getContactInfo(systemAdmin.preferredContact));
+// console.log(systemAdmin.permissions);
 
 
 
@@ -331,34 +331,34 @@ console.log(systemAdmin.permissions);
 //     output: process.stdout
 // });
 
-const input: string[] = [];
+// const input: string[] = [];
 
-// TODO: Write your code here
-// 1. Create type aliases for Success, Failure, and Result
-type Success = { 
-    status: "success",
-    data: any
-};
-type Failure = { 
-    status: "error",
-    message: string
-};
-type Result = Success | Failure
+// // TODO: Write your code here
+// // 1. Create type aliases for Success, Failure, and Result
+// type Success = { 
+//     status: "success",
+//     data: any
+// };
+// type Failure = { 
+//     status: "error",
+//     message: string
+// };
+// type Result = Success | Failure
 
-// 2. Create the processResult function
-function processResult(result: Result): string{ 
-    if(result.status === "success"){ 
-        return `Operation successfull: ${result.data}`
-    }
-    return `Operation failed: ${result.message}`
-};
+// // 2. Create the processResult function
+// function processResult(result: Result): string{ 
+//     if(result.status === "success"){ 
+//         return `Operation successfull: ${result.data}`
+//     }
+//     return `Operation failed: ${result.message}`
+// };
 
-function handleApiResponse(response: Result): boolean{ 
-    if(response.status === "success"){ 
-        return true;
-    }
-    return false;
-}
+// function handleApiResponse(response: Result): boolean{ 
+//     if(response.status === "success"){ 
+//         return true;
+//     }
+//     return false;
+// }
 
 
 
@@ -366,22 +366,22 @@ function handleApiResponse(response: Result): boolean{
 
 // 3. Create the handleApiResponse function
 
-rl.on('line', (line: string) => {
-    input.push(line.trim());
-    if (input.length === 2) {
-        // Parse the JSON inputs
-        const result1 = JSON.parse(input[0]);
-        const result2 = JSON.parse(input[1]);
+// rl.on('line', (line: string) => {
+//     input.push(line.trim());
+//     if (input.length === 2) {
+//         // Parse the JSON inputs
+//         const result1 = JSON.parse(input[0]);
+//         const result2 = JSON.parse(input[1]);
         
-        // 4. Call the functions with the parsed results and print the outputs
-        console.log(processResult(result1));
-        console.log(handleApiResponse(result1));
-        console.log(processResult(result2));
-        console.log(handleApiResponse(result2));
+//         // 4. Call the functions with the parsed results and print the outputs
+//         console.log(processResult(result1));
+//         console.log(handleApiResponse(result1));
+//         console.log(processResult(result2));
+//         console.log(handleApiResponse(result2));
         
-        rl.close();
-    }
-});
+//         rl.close();
+//     }
+// });
 
 
 // Create a variable named student with an inline object type annotation that defines the following structure:
@@ -412,22 +412,22 @@ rl.on('line', (line: string) => {
 // The number of credits
 
 
-const student: { name: string; studentId: number; isEnrolled: boolean } = { 
-    name: "Sarah Johnson",
-    studentId: 12345,
-    isEnrolled: true
-}
-// Create the course variable with inline object type annotation
-const course: { title: string; credits: number; instructor: string } = { 
-    title: "Introduction to TypeScript",
-    credits: 3,
-    instructor: "Dr. Smith"
-}
-// Print the required information
-console.log(student.name);
-console.log(student.studentId);
-console.log(course.title);
-console.log(course.credits);
+// const student: { name: string; studentId: number; isEnrolled: boolean } = { 
+//     name: "Sarah Johnson",
+//     studentId: 12345,
+//     isEnrolled: true
+// }
+// // Create the course variable with inline object type annotation
+// const course: { title: string; credits: number; instructor: string } = { 
+//     title: "Introduction to TypeScript",
+//     credits: 3,
+//     instructor: "Dr. Smith"
+// }
+// // Print the required information
+// console.log(student.name);
+// console.log(student.studentId);
+// console.log(course.title);
+// console.log(course.credits);
 
 
 
@@ -461,45 +461,45 @@ console.log(course.credits);
 
 
 
-type Book = { title: string; author: string; pages: number; isAvailable: boolean };
-type Movie = { title: string; director: string; duration: number; rating: string };
+// type Book = { title: string; author: string; pages: number; isAvailable: boolean };
+// type Movie = { title: string; director: string; duration: number; rating: string };
 
-// Create variables using the type aliases
-const novel: Book = {
-     title: "The Great Gatsby",
-     author: "F. Scoot Fitzgerald",
-     pages: 180,
-     isAvailable: true
-};
+// // Create variables using the type aliases
+// const novel: Book = {
+//      title: "The Great Gatsby",
+//      author: "F. Scoot Fitzgerald",
+//      pages: 180,
+//      isAvailable: true
+// };
 
-const textbook: Book = { 
-    title: "TypeScript Handbook",
-    author: "Microsoft",
-    pages: 450,
-    isAvailable: false
-};
+// const textbook: Book = { 
+//     title: "TypeScript Handbook",
+//     author: "Microsoft",
+//     pages: 450,
+//     isAvailable: false
+// };
 
-const film: Movie = { 
-    title: "Inception",
-    director: "Christopher Nolan",
-    duration: 148,
-    rating: "PG-13"
-};
+// const film: Movie = { 
+//     title: "Inception",
+//     director: "Christopher Nolan",
+//     duration: 148,
+//     rating: "PG-13"
+// };
 
 
-// Create functions to get information
-function getBookInfo(data: Book): string { 
-    return `${data.title} by ${data.author} - ${data.pages} pages`
-};
+// // Create functions to get information
+// function getBookInfo(data: Book): string { 
+//     return `${data.title} by ${data.author} - ${data.pages} pages`
+// };
 
-function getMovieInfo(data:Movie): string { 
-    return `${data.title} directed by ${data.director} (${data.duration} min)`;
-};
+// function getMovieInfo(data:Movie): string { 
+//     return `${data.title} directed by ${data.director} (${data.duration} min)`;
+// };
 
-console.log(getBookInfo(novel));
-console.log(getBookInfo(textbook));
-console.log(getMovieInfo(film));
-console.log(novel.isAvailable)
+// console.log(getBookInfo(novel));
+// console.log(getBookInfo(textbook));
+// console.log(getMovieInfo(film));
+// console.log(novel.isAvailable)
 
 
 
@@ -534,58 +534,58 @@ console.log(novel.isAvailable)
 
 
 // Create the Pet interface
-interface Pet { 
-    name: string,
-    species: string,
-    age: number,
-    isVaccinated: boolean
-};
+// interface Pet { 
+//     name: string,
+//     species: string,
+//     age: number,
+//     isVaccinated: boolean
+// };
 
-// Create the Vehicle interface
+// // Create the Vehicle interface
 
-interface Vehicle { 
-    make: string,
-    model: string,
-    year: number
-};
+// interface Vehicle { 
+//     make: string,
+//     model: string,
+//     year: number
+// };
 
-// Create the variables using your interfaces
-const myDog: Pet = { 
-    name: "Buddy",
-    species: "Golder Retriever",
-    age: 3,
-    isVaccinated: true
-};
+// // Create the variables using your interfaces
+// const myDog: Pet = { 
+//     name: "Buddy",
+//     species: "Golder Retriever",
+//     age: 3,
+//     isVaccinated: true
+// };
 
-const myCat: Pet = { 
-    name: "Whiskers",
-    species: "Persion",
-    age: 2,
-    isVaccinated: false
-};
+// const myCat: Pet = { 
+//     name: "Whiskers",
+//     species: "Persion",
+//     age: 2,
+//     isVaccinated: false
+// };
 
-const myCar: Vehicle = { 
-    make: "Toyota",
-    model: "Camry",
-    year: 2022
-};
+// const myCar: Vehicle = { 
+//     make: "Toyota",
+//     model: "Camry",
+//     year: 2022
+// };
 
-// Create the describePet function
-function describePet(data: Pet): string { 
-    return `${data.name} is a ${data.age}-tear-old ${data.species}`
-};
+// // Create the describePet function
+// function describePet(data: Pet): string { 
+//     return `${data.name} is a ${data.age}-tear-old ${data.species}`
+// };
 
 
-// Create the getVehicleInfo function
-function getVehicleInfo(data: Vehicle):string { 
-return `${data.year} ${data.make} ${data.model}`;
+// // Create the getVehicleInfo function
+// function getVehicleInfo(data: Vehicle):string { 
+// return `${data.year} ${data.make} ${data.model}`;
 
-};
+// };
 
-console.log(describePet(myDog));
-console.log(describePet(myCat));
-console.log(getVehicleInfo(myCar));
-console.log(myDog.isVaccinated);
+// console.log(describePet(myDog));
+// console.log(describePet(myCat));
+// console.log(getVehicleInfo(myCar));
+// console.log(myDog.isVaccinated);
 
 
 // Create an interface named Book with the following properties:
@@ -622,70 +622,70 @@ console.log(myDog.isVaccinated);
 // Print the subscription status of techMag (the monthlySubscription property)
 
 
-interface Book { 
-    title: string,
-    readonly isbn: string,
-    subtitle?: string,
-    pages: number,
-    readonly publishedYear: number,
-    genre?: string
-};
+// interface Book { 
+//     title: string,
+//     readonly isbn: string,
+//     subtitle?: string,
+//     pages: number,
+//     readonly publishedYear: number,
+//     genre?: string
+// };
 
-// Create the Magazine interface
-interface Magezine { 
-    name: string,
-    readonly issueNumber: number,
-    topic?: string,
-    monthlySubscirption: boolean
-};
+// // Create the Magazine interface
+// interface Magezine { 
+//     name: string,
+//     readonly issueNumber: number,
+//     topic?: string,
+//     monthlySubscirption: boolean
+// };
 
-// Create the variables using your interfaces
-const novel: Book = { 
-    title: "1984",
-    isbn: "978-0-452-28423-4",
-    pages: 328,
-    publishedYear: 1949
-};
+// // Create the variables using your interfaces
+// const novel: Book = { 
+//     title: "1984",
+//     isbn: "978-0-452-28423-4",
+//     pages: 328,
+//     publishedYear: 1949
+// };
 
-const cookbook: Book = { 
-    title: "The Joy of Cooking",
-    isbn: "978-0-7432-4626-2",
-    subtitle: "All About Baking",
-    pages: 1132,
-    publishedYear: 2006,
-    genre: "Cooking"
-};
+// const cookbook: Book = { 
+//     title: "The Joy of Cooking",
+//     isbn: "978-0-7432-4626-2",
+//     subtitle: "All About Baking",
+//     pages: 1132,
+//     publishedYear: 2006,
+//     genre: "Cooking"
+// };
 
-const techMag: Magezine = { 
-    name: "Tech Today",
-    issueNumber: 45,
-    monthlySubscirption: true
-};
+// const techMag: Magezine = { 
+//     name: "Tech Today",
+//     issueNumber: 45,
+//     monthlySubscirption: true
+// };
 
-const scienceMag: Magezine = { 
-    name: "Science Weekly",
-    issueNumber: 12,
-    topic: "Climate Change",
-    monthlySubscirption: false
-};
+// const scienceMag: Magezine = { 
+//     name: "Science Weekly",
+//     issueNumber: 12,
+//     topic: "Climate Change",
+//     monthlySubscirption: false
+// };
 
-// Create the getBookDetails function
-function getBookDetails(data: Book): string { 
-    return `${data.title} - ${data.pages} pages`
-};
+// // Create the getBookDetails function
+// function getBookDetails(data: Book): string { 
+//     return `${data.title} - ${data.pages} pages`
+// };
 
-// Create the getMagazineInfo function
-function getMagezineInfo(data: Magezine):string { 
-   return `${data.name} Issue #${data.issueNumber}`
-}
+// // Create the getMagazineInfo function
+// function getMagezineInfo(data: Magezine):string { 
+//    return `${data.name} Issue #${data.issueNumber}`
+// }
 
-// Print the required outputs
-console.log(getBookDetails(novel));
-console.log(getBookDetails(cookbook));
-console.log(getMagezineInfo(techMag));
-console.log(getMagezineInfo(scienceMag));
-console.log(novel.isbn);
-console.log(techMag.monthlySubscirption);
+// // Print the required outputs
+// console.log(getBookDetails(novel));
+// console.log(getBookDetails(cookbook));
+// console.log(getMagezineInfo(techMag));
+// console.log(getMagezineInfo(scienceMag));
+// console.log(novel.isbn);
+// console.log(techMag.monthlySubscirption);
 
 
 
@@ -722,145 +722,145 @@ console.log(techMag.monthlySubscirption);
 // Print the email of softwareDev
 
 
-interface Employee { 
-    id: number,
-    name: string,
-    department: string
-};
+// interface Employee { 
+//     id: number,
+//     name: string,
+//     department: string
+// };
 
-// Create the Manager interface that extends Employee
-interface Manager extends Employee { 
-    teamSize: number,
-    budget: number
-};
+// // Create the Manager interface that extends Employee
+// interface Manager extends Employee { 
+//     teamSize: number,
+//     budget: number
+// };
 
-// Create the Contact type alias
-type Contact = { 
-    email: string,
-    phone: string
-};
+// // Create the Contact type alias
+// type Contact = { 
+//     email: string,
+//     phone: string
+// };
 
-// Create the Developer type alias using intersection types
-type Developer = Employee & Contact & { 
-    programmingLanguages: string[],
-    yearsExperience: number
-};
+// // Create the Developer type alias using intersection types
+// type Developer = Employee & Contact & { 
+//     programmingLanguages: string[],
+//     yearsExperience: number
+// };
 
-// Create the teamLead variable of type Manager
-const teamLead: Manager = { 
-    id: 101,
-    name: "Alice Johnson",
-    department: "Engineering",
-    teamSize: 8,
-    budget: 250000
-}
+// // Create the teamLead variable of type Manager
+// const teamLead: Manager = { 
+//     id: 101,
+//     name: "Alice Johnson",
+//     department: "Engineering",
+//     teamSize: 8,
+//     budget: 250000
+// }
 
-// Create the softwareDev variable of type Developer
-const softwareDev: Developer = { 
-    id: 102,
-    name: "Bob Smith",
-    department: "Engineering",
-    email: "bob.smith@company.com",
-    phone: "555-0123",
-    programmingLanguages: ["TypeScript", " Python", " Java"],
-    yearsExperience: 5
-};
+// // Create the softwareDev variable of type Developer
+// const softwareDev: Developer = { 
+//     id: 102,
+//     name: "Bob Smith",
+//     department: "Engineering",
+//     email: "bob.smith@company.com",
+//     phone: "555-0123",
+//     programmingLanguages: ["TypeScript", " Python", " Java"],
+//     yearsExperience: 5
+// };
 
-// Create the getManagerSummary function
-function getManagerSummary(data: Manager):string { 
-    return `${data.name} manages ${data.teamSize} people with a budget of $${data.budget}`
-};
+// // Create the getManagerSummary function
+// function getManagerSummary(data: Manager):string { 
+//     return `${data.name} manages ${data.teamSize} people with a budget of $${data.budget}`
+// };
 
-// Create the getDeveloperSkills function
-function getDeveloperSkills(data: Developer):string { 
-    return `${data.name} knows ${data.programmingLanguages} (${data.yearsExperience} years experience)`
-}
+// // Create the getDeveloperSkills function
+// function getDeveloperSkills(data: Developer):string { 
+//     return `${data.name} knows ${data.programmingLanguages} (${data.yearsExperience} years experience)`
+// }
 
-// Print the required outputs
-console.log(getManagerSummary(teamLead));
-console.log(getDeveloperSkills(softwareDev));
-console.log(teamLead.department);
-console.log(softwareDev.email);
-
-
-
-// Create an interface named Calculator with the following properties and methods:
-
-// brand of type string
-// model of type string
-// isScientific of type boolean
-// add method that takes two number parameters and returns a number
-// getInfo method that takes no parameters and returns a string
-// Create an interface named BankAccount with the following properties and methods:
-
-// accountNumber of type string
-// balance of type number
-// isActive of type boolean
-// deposit method that takes a number parameter and returns void
-// getBalance method that takes no parameters and returns a number
-// Using your interfaces, create the following variables:
-
-// Create a variable named myCalculator of type Calculator with brand "Casio", model "FX-991EX", isScientific true, an add method that returns the sum of its two parameters, and a getInfo method that returns "[brand] [model]"
-// Create a variable named savingsAccount of type BankAccount with accountNumber "SAV-12345", balance 1500, isActive true, a deposit method that adds the parameter to the balance, and a getBalance method that returns the current balance
-// Print the following outputs on separate lines:
-
-// Call the getInfo method on myCalculator and print the result
-// Call the add method on myCalculator with arguments 15 and 27, and print the result
-// Call the getBalance method on savingsAccount and print the result
-// Call the deposit method on savingsAccount with argument 250
-// Call the getBalance method on savingsAccount again and print the result
-// Print the isScientific property of myCalculator
-
-
-interface Calculator { 
-    brand: string,
-    model: string,
-    isScientific: boolean,
-    add(a: number, b: number): number,
-    getInfo(): string
-};
-// Create the BankAccount interface with the required properties and methods
-interface BankAccount { 
-    accountNumber: string,
-    balance: number,
-    isActive: boolean,
-    deposit(a:number):void,
-    getBalance():number
-};
-// Create the myCalculator variable of type Calculator
-const myCalculator: Calculator = { 
-    brand: "Casio",
-    model: "FX-991EX",
-    isScientific: true,
-    add(a, b){ 
-        return a + b
-    },
-    getInfo(){ 
-        return `${this.brand} ${this.model}`
-    }
-};
+// // Print the required outputs
+// console.log(getManagerSummary(teamLead));
+// console.log(getDeveloperSkills(softwareDev));
+// console.log(teamLead.department);
+// console.log(softwareDev.email);
 
 
 
-const savingsAccount: BankAccount = { 
-    accountNumber: "SAV-12345",
-    balance: 1500,
-    isActive: true,
-    deposit(amount){ 
-        let Balance = savingsAccount.balance;
-       return Balance += amount;
-    },
-    getBalance() { 
-        return savingsAccount.balance
-    }
-}
-// Create the savingsAccount variable of type BankAccount
-// Print all the required outputs
-console.log(myCalculator.getInfo());
-console.log(myCalculator.add(15, 27));
-console.log(savingsAccount.getBalance());
-console.log(savingsAccount.deposit(250));
-console.log(myCalculator.isScientific);
+// // Create an interface named Calculator with the following properties and methods:
+
+// // brand of type string
+// // model of type string
+// // isScientific of type boolean
+// // add method that takes two number parameters and returns a number
+// // getInfo method that takes no parameters and returns a string
+// // Create an interface named BankAccount with the following properties and methods:
+
+// // accountNumber of type string
+// // balance of type number
+// // isActive of type boolean
+// // deposit method that takes a number parameter and returns void
+// // getBalance method that takes no parameters and returns a number
+// // Using your interfaces, create the following variables:
+
+// // Create a variable named myCalculator of type Calculator with brand "Casio", model "FX-991EX", isScientific true, an add method that returns the sum of its two parameters, and a getInfo method that returns "[brand] [model]"
+// // Create a variable named savingsAccount of type BankAccount with accountNumber "SAV-12345", balance 1500, isActive true, a deposit method that adds the parameter to the balance, and a getBalance method that returns the current balance
+// // Print the following outputs on separate lines:
+
+// // Call the getInfo method on myCalculator and print the result
+// // Call the add method on myCalculator with arguments 15 and 27, and print the result
+// // Call the getBalance method on savingsAccount and print the result
+// // Call the deposit method on savingsAccount with argument 250
+// // Call the getBalance method on savingsAccount again and print the result
+// // Print the isScientific property of myCalculator
+
+
+// interface Calculator { 
+//     brand: string,
+//     model: string,
+//     isScientific: boolean,
+//     add(a: number, b: number): number,
+//     getInfo(): string
+// };
+// // Create the BankAccount interface with the required properties and methods
+// interface BankAccount { 
+//     accountNumber: string,
+//     balance: number,
+//     isActive: boolean,
+//     deposit(a:number):void,
+//     getBalance():number
+// };
+// // Create the myCalculator variable of type Calculator
+// const myCalculator: Calculator = { 
+//     brand: "Casio",
+//     model: "FX-991EX",
+//     isScientific: true,
+//     add(a, b){ 
+//         return a + b
+//     },
+//     getInfo(){ 
+//         return `${this.brand} ${this.model}`
+//     }
+// };
+
+
+
+// const savingsAccount: BankAccount = { 
+//     accountNumber: "SAV-12345",
+//     balance: 1500,
+//     isActive: true,
+//     deposit(amount){ 
+//         let Balance = savingsAccount.balance;
+//        return Balance += amount;
+//     },
+//     getBalance() { 
+//         return savingsAccount.balance
+//     }
+// }
+// // Create the savingsAccount variable of type BankAccount
+// // Print all the required outputs
+// console.log(myCalculator.getInfo());
+// console.log(myCalculator.add(15, 27));
+// console.log(savingsAccount.getBalance());
+// console.log(savingsAccount.deposit(250));
+// console.log(myCalculator.isScientific);
 
 
 
@@ -902,54 +902,54 @@ console.log(myCalculator.isScientific);
 
 
 
-interface Computer { 
-    readonly id: number,
-    brand: string,
-    ramInGB?: number,
-    isLaptop: boolean,
-    boot(): void
-};
-// Create the Server interface with the required properties and methods
-interface Server { 
-    readonly hostname: string,
-    operatingSystem: string,
-    maxConnection?: number,
-    isOnline: boolean,
-    restart(): void,
-    getStatus(): string
-};
-// Create the workstation, laptop, and webServer variables
-const workstation: Computer = { 
-    id: 1001,
-    brand: "Dell",
-    ramInGB: 16,
-    isLaptop: false,
-    boot() { 
-        return `Dell workstation is booting up...`
-    }
-};
+// interface Computer { 
+//     readonly id: number,
+//     brand: string,
+//     ramInGB?: number,
+//     isLaptop: boolean,
+//     boot(): void
+// };
+// // Create the Server interface with the required properties and methods
+// interface Server { 
+//     readonly hostname: string,
+//     operatingSystem: string,
+//     maxConnection?: number,
+//     isOnline: boolean,
+//     restart(): void,
+//     getStatus(): string
+// };
+// // Create the workstation, laptop, and webServer variables
+// const workstation: Computer = { 
+//     id: 1001,
+//     brand: "Dell",
+//     ramInGB: 16,
+//     isLaptop: false,
+//     boot() { 
+//         return `Dell workstation is booting up...`
+//     }
+// };
 
-const laptop: Computer = { 
-    id: 1002,
-    brand: "MacBook",
-    isLaptop: true,
-    boot(){ 
-      return "MacBook laptop is starting..."
-    }
-};
+// const laptop: Computer = { 
+//     id: 1002,
+//     brand: "MacBook",
+//     isLaptop: true,
+//     boot(){ 
+//       return "MacBook laptop is starting..."
+//     }
+// };
 
-const webServer: Server = { 
-    hostname: "web-01",
-    operatingSystem: "Ubuntu",
-    maxConnection: 1000,
-    isOnline: true,
-    restart(){ 
-       return `Restarting web-01 server...`
-    },
-    getStatus(){ 
-        return `web-01 is online`
-    }
-};
+// const webServer: Server = { 
+//     hostname: "web-01",
+//     operatingSystem: "Ubuntu",
+//     maxConnection: 1000,
+//     isOnline: true,
+//     restart(){ 
+//        return `Restarting web-01 server...`
+//     },
+//     getStatus(){ 
+//         return `web-01 is online`
+//     }
+// };
 
 
 
@@ -989,97 +989,26 @@ const webServer: Server = {
 // Call the restart method on webServer
 
 // Create the checkComputerSpecs and getServerInfo functions
-function checkComputerSpecs(data: Computer): string{ 
-    if(data.isLaptop === true){
-      return `${data.brand} laptop`
-    }
-    return `${data.brand} desktop`
-};
+// function checkComputerSpecs(data: Computer): string{ 
+//     if(data.isLaptop === true){
+//       return `${data.brand} laptop`
+//     }
+//     return `${data.brand} desktop`
+// };
 
-function getServerInfo(data: Server): string { 
-    return `${data.hostname} runs ${data.operatingSystem}`
-};
+// function getServerInfo(data: Server): string { 
+//     return `${data.hostname} runs ${data.operatingSystem}`
+// };
 
-// Print all the required outputs
-console.log(workstation.boot());
-console.log(laptop.boot());
-console.log(checkComputerSpecs(workstation));
-console.log(checkComputerSpecs(laptop));
-console.log(webServer.getStatus());
-console.log(getServerInfo(webServer));
-console.log(workstation.id);
-console.log(webServer.restart());
-
-
-
-// Create an interface named Task with the following properties:
-
-// id of type number
-// title of type string
-// status that can only be one of these literal values: 'todo', 'in-progress', or 'done'
-// Using your Task interface, create the following variables:
-
-// Create a variable named firstTask of type Task with id 1, title "Learn TypeScript interfaces", and status 'todo'
-// Create a variable named secondTask of type Task with id 2, title "Build task management app", and status 'in-progress'
-// Create a variable named thirdTask of type Task with id 3, title "Write unit tests", and status 'done'
-// Create a function named getTaskInfo that accepts a parameter of type Task and returns a string in the format "Task [id]: [title] - [status]".
-
-// Print the following outputs on separate lines:
-
-// Call getTaskInfo with firstTask and print the result
-// Call getTaskInfo with secondTask and print the result
-// Call getTaskInfo with thirdTask and print the result
-// Print the status of firstTask
-// Print the title of secondTask
+// // Print all the required outputs
+// console.log(workstation.boot());
+// console.log(laptop.boot());
+// console.log(checkComputerSpecs(workstation));
+// console.log(checkComputerSpecs(laptop));
+// console.log(webServer.getStatus());
+// console.log(getServerInfo(webServer));
+// console.log(workstation.id);
+// console.log(webServer.restart());
 
 
-interface Task { 
-    id: number,
-    title: string,
-    status: 'todo' | 'in-progress' | 'done'
-}
 
-
-// Create the task variables
-const firstTask: Task = { 
-    id: 1,
-    title: "Learn TypeScript interfaces",
-    status: 'todo'
-};
-const secondTask: Task = { 
-    id: 2,
-    title: "Build task management app",
-    status: 'in-progress'
-};
-const thirdTask: Task = { 
-    id: 3,
-    title: "Write unit tests",
-    status: 'done'
-};
-
-
-// Create the getTaskInfo function
-function getTaskInfo(data: Task):string { 
-    return `Task ${data.id}: ${data.title} - ${data.status}`
-};
-
-function addTask(taskList: Task[], title: string) { 
-    const newTask: Task = { 
-        id: taskList.length + 1,
-        title: title,
-        status: 'todo'
-    };
-    let updatedTaskList = ([...taskList, newTask])
-    return updatedTaskList;
-};
-
-// Print the required outputs
-let initialTasks: Task[] = [ firstTask, secondTask ];
-
-let updatedTasks = addTask(initialTasks, "Review code changes");
-console.log(initialTasks.length);
-console.log(updatedTasks.length);
-let latestTask = updatedTasks[updatedTasks.length - 1]
-console.log(getTaskInfo(latestTask));
-console.log(latestTask.title);
-console.log(latestTask.status)
