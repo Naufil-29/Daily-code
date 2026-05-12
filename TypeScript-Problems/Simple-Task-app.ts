@@ -77,24 +77,44 @@ function listTasksByStatus(taskList: Task[], status: 'todo' | 'in-progress' | 'd
         }
     });
     return updatedArray;
-}
+};
 
+function printTaskSummary(task: Task): void { 
+   console.log(`ID: ${task.id}, Title: ${task.title}, Status: ${task.status}`);
+};
+
+function printAllTaskSummaries(taskList: Task[]): void { 
+    for(let i = 0; i < taskList.length; i++){ 
+        printTaskSummary(taskList[i]);
+    }
+}
 // Print the required outputs
 let mixedTasks: Task[] = [ firstTask, secondTask, thirdTask ];
 const todoTasks: Task[] = listTasksByStatus(mixedTasks, 'todo');
 const inProgressTasks: Task[] = listTasksByStatus(mixedTasks, 'in-progress');
 const doneTasks: Task[] = listTasksByStatus(mixedTasks, 'done');
+const sampleTasks: Task[] = [  
+    { id: 101, title: "Design user interface", status: 'todo'},
+    { id: 102, title: "Implement authentication", status: 'in-progress'},
+    { id: 103, title: "Deploy to production", status: 'done'}
+ ];
 
-console.log('todoTasks', todoTasks)
-console.log('inProgressTasks', inProgressTasks)
-console.log('doneTasks', doneTasks)
-console.log(mixedTasks.length);
-console.log(todoTasks.length);
-console.log(inProgressTasks.length);
-console.log(doneTasks.length);
-console.log(getTaskInfo(todoTasks[0]));
-console.log(getTaskInfo(inProgressTasks[0]));
-console.log(getTaskInfo(doneTasks[0]));
 
+ let projectTasks: Task[] = [  
+    { id: 201, title: "Setup development environment", status: "done" },
+    { id: 202, title: "Create project structure", status: "todo" }
+ ];
+
+let expandedTasks = addTask(projectTasks, "Write documentation");
+let updatedProjectTasks = changeTaskStatus(expandedTasks, 202, 'in-progress');
+let finalTasks = changeTaskStatus(updatedProjectTasks, 3, 'done');
+let completedProjectTasks = listTasksByStatus(finalTasks, 'done');
+
+console.log(projectTasks.length);
+console.log(finalTasks.length);
+console.log(completedProjectTasks.length);
+printTaskSummary(completedProjectTasks[0]);
+printTaskSummary(completedProjectTasks[completedProjectTasks.length - 1]);
+printAllTaskSummaries(finalTasks);
 
 
