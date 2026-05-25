@@ -109,6 +109,45 @@ function findItemById <T>(inventory:InventoryItem<T>[], id: number): InventoryIt
     return foundItem;
 };
 
+function getItemDetails (item: InventoryItem<any>): void { 
+    if('title' in item.details){ 
+        console.log(`Book: ${item.details.title} by ${item.details.author}`);
+    }
+    else if('brand' in item.details){ 
+        console.log(`Electronic: ${item.details.brand} ${item.details.model}`);
+    }
+    else{
+    console.log('Unknown item type');
+    }
+};
+
+const testBook: InventoryItem<any> = { 
+    id: 300,
+    quantity: 6,
+    details: { 
+        title: "TypeScript Handbook",
+        author: "Microsoft Team"
+    }
+};
+
+const testElectronic: InventoryItem<any> = { 
+    id: 400,
+    quantity: 2,
+    details: { 
+        brand: "Dell",
+        model: "XPS 13",
+    }
+};
+
+const unknowItem: InventoryItem<any> = { 
+    id: 500,
+    quantity: 1,
+    details: { 
+        color: "Red",
+        size: "Large"
+    }
+};
+
 const anotherBook: BookItem = { 
     id: 101,
     quantity: 3,
@@ -197,18 +236,10 @@ const newElectronic: InventoryItem<{ brand: string; model: string }> = {
 const updatedElectronicInventory = addItem(electronicInventory, newElectronic);
 
 // Print the required outputs
-const result1 = findItemById(expandedBookStore, 101);
+const result1 = findItemById(expandedBookStore, 100);
 const result2 = findItemById(electronicStore, 200);
-const result3 = findItemById(mixedBookInventory, 99);
-const result4 = findItemById(mixedBookInventory, 12);
-const result5 = findItemById(mixedElectronicInventory, 21);
-const result6 = findItemById(mixedBookInventory, 10);
-const result7 = findItemById(mixedElectronicInventory, 50);
-console.log(specificBook.details.title);
-console.log(specificBook.details.author);
-console.log(specificElectronic.details.brand);
-console.log(specificElectronic.details.model);
-console.log (expandedBookStore.length);
-console.log(result1?.details.title);
-console.log(result2?.quantity);
-console.log(expandedBookStore[1].details.author);
+getItemDetails(testBook);
+getItemDetails(testElectronic);
+getItemDetails(unknowItem);
+getItemDetails(result1!);
+getItemDetails(result2!);
