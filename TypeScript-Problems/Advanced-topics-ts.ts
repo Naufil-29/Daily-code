@@ -130,3 +130,145 @@ console.log(getMediaInfo(movie2));
 console.log(getMediaInfo(song2));
 console.log(processValue(testDate));
 console.log(processValue(testString));
+
+
+
+// Create a function named throwError that demonstrates the never return type by always throwing an error and never returning normally.
+
+// The function should:
+
+// Take a parameter message of type string
+// Throw a new Error with the provided message
+// Have an explicit return type of never
+// Create a second function named handleOperation that:
+
+// Takes two parameters: operation of type string and value of type number
+// Returns value * 2 if operation is "double"
+// Returns value / 2 if operation is "half"
+// Calls throwError with the message "Invalid operation: [operation]" for any other operation
+// Has an explicit return type of number
+// Test your functions with the following operations:
+
+// Call handleOperation("double", 5) and print the result
+// Call handleOperation("half", 8) and print the result
+// Call handleOperation("triple", 3) and print the result (this will throw an error)
+// Create additional test cases:
+
+// Call handleOperation("double", 15) and print the result
+// Call handleOperation("half", 20) and print the result
+
+
+function throwError(message: string):never { 
+    throw new Error(message);
+};
+// Create the handleOperation function with number return type
+function handleOperation(operation: string, value: number): number{ 
+    if(operation === "double"){ 
+        return value * 2;
+    }
+    else if(operation === "half"){ 
+        return value / 2
+    }
+    else{ 
+        throw new Error(`Invalid operation: ${operation}`);
+    }
+}
+
+// Test the functions with try-catch blocks
+try {
+    console.log(handleOperation("double", 5));
+} catch (error) {
+    console.log(`Error: ${(error as Error).message}`);
+}
+
+try {
+    console.log(handleOperation("half", 8));
+} catch (error) {
+    console.log(`Error: ${(error as Error).message}`);
+}
+
+try {
+    console.log(handleOperation("triple", 3));
+} catch (error) {
+    console.log(`Error: ${(error as Error).message}`);
+}
+
+try {
+    console.log(handleOperation("double", 15));
+} catch (error) {
+    console.log(`Error: ${(error as Error).message}`);
+}
+
+try {
+    console.log(handleOperation("half", 20));
+} catch (error) {
+    console.log(`Error: ${(error as Error).message}`);
+}
+
+
+
+// Create a function that safely processes user profile data that might contain null values. This challenge demonstrates how strictNullChecks forces you to handle nullable types explicitly.
+
+// Create a function named getUserDisplayName that:
+
+// Takes a parameter fullName of type string | null
+// Returns the full name if it's not null
+// Returns "Anonymous User" if the full name is null
+// Has an explicit return type of string
+// Create a second function named formatUserEmail that:
+
+// Takes a parameter email of type string | null
+// Returns the email in lowercase if it's not null
+// Returns "No email provided" if the email is null
+// Has an explicit return type of string
+// Create a third function named getUserInfo that:
+
+// Takes two parameters: name of type string | null and email of type string | null
+// Uses both previous functions to process the parameters
+// Returns a formatted string: "Name: [processed name], Email: [processed email]"
+// Has an explicit return type of string
+// Test your functions with the following data:
+
+// Call getUserDisplayName("John Smith") and print the result
+// Call getUserDisplayName(null) and print the result
+// Call formatUserEmail("ALICE@EXAMPLE.COM") and print the result
+// Call formatUserEmail(null) and print the result
+// Call getUserInfo("Bob Johnson", "bob@test.com") and print the result
+// Call getUserInfo(null, null) and print the result
+// Call getUserInfo("Sarah Wilson", null) and print the result
+
+
+function getUserDisplayName(fullName: string | null): string { 
+    if(fullName !== null){ 
+        return fullName;
+    }
+    else{ 
+        return "Anonymous User"
+    }
+} 
+
+// Create the formatUserEmail function that takes email (string | null) and returns string
+function formatUserEmail(email: string | null): string { 
+    if(email !== null){ 
+       return email.toLowerCase()
+    }
+    else{ 
+        return "No email provided"
+    }
+}
+
+// Create the getUserInfo function that takes name and email (both string | null) and returns string
+function getUserInfo(name: string | null, email: string | null): string { 
+    const username = getUserDisplayName(name);
+    const userEmail = formatUserEmail(email);
+    return `Name: ${username}, Email: ${userEmail}`;
+}
+
+// Test the functions and print the results
+console.log(getUserDisplayName("John Smith"));
+console.log(getUserDisplayName(null));
+console.log(formatUserEmail("ALICE@EXAMPLE.COM"));
+console.log(formatUserEmail(null));
+console.log(getUserInfo("Bob Johnson", "bob@test.com"));
+console.log(getUserInfo(null, null));
+console.log(getUserInfo("Sarah Wilson", null));
