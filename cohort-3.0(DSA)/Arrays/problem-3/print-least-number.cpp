@@ -12,14 +12,13 @@ int main() {
     }
 
     int min = A[0];
-    int position = 0;
+    int position = 1;
     for(int i = 0; i < n; i++){ 
         if(A[i] < min){ 
             min = A[i];
-            position = i;
+            position = i + 1;
         }
     }
 
-    cout << min << endl;
-    cout << position << endl;
+    cout << min << " " << position << endl;
 }

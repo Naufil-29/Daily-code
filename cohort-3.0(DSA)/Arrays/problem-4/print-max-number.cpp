@@ -12,14 +12,13 @@ int main() {
     }
 
     int max = A[0];
-    int position = 0;
+    int position = 1;
     for(int i = 0; i < n; i++){ 
         if(A[i] > max){ 
             max = A[i];
-            position = i;
+            position = i + 1;
         }
     }
 
-    cout << max << endl;
-    cout << position << endl;
+    cout << max << " " << position << endl;
 }
