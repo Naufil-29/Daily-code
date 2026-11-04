@@ -11,12 +11,15 @@ int main() {
         cin >> A[i];
     }
 
-    long long sum = 0;
+    int min = A[0];
+    int position = 0;
     for(int i = 0; i < n; i++){ 
-        if(A[i] > sum){
-        sum = A[i];
+        if(A[i] < min){ 
+            min = A[i];
+            position = i;
         }
     }
 
-    cout << sum;
+    cout << min << endl;
+    cout << position << endl;
 }
