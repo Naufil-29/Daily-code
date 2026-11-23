@@ -10,6 +10,7 @@ int main() {
         cin >> arr[i];
     }
 
+    int swaps = 0;
     for(int x = 0; x < n - 1; x++){ 
         int mn = arr[x];
         int loc = x;
@@ -21,6 +22,7 @@ int main() {
             }
         }
         swap(arr[x], arr[loc]);
+        swaps++;
         cout << "Pass " << x + 1 << ": ";
         for(int k = 0; k < n; k++){ 
             cout << arr[k] << " ";
